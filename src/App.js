@@ -19,6 +19,7 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
 
 const App = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
+	const [isDeleteMod, setIsDeleteMod] = useState(false);
 
 	useEffect(() => {
 		authService.onAuthStateChanged((user) => {
@@ -39,7 +40,12 @@ const App = () => {
 				<Route
 					index
 					element={
-						<Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+						<Home
+							isLoggedIn={isLoggedIn}
+							setIsLoggedIn={setIsLoggedIn}
+							isDeleteMod={isDeleteMod}
+							setIsDeleteMod={setIsDeleteMod}
+						/>
 					}
 				/>
 				<Route
@@ -48,13 +54,20 @@ const App = () => {
 						<Landscape
 							isLoggedIn={isLoggedIn}
 							setIsLoggedIn={setIsLoggedIn}
+							isDeleteMod={isDeleteMod}
+							setIsDeleteMod={setIsDeleteMod}
 						/>
 					}
 				/>
 				<Route
 					path='/sorok'
 					element={
-						<Sorok isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+						<Sorok
+							isLoggedIn={isLoggedIn}
+							setIsLoggedIn={setIsLoggedIn}
+							isDeleteMod={isDeleteMod}
+							setIsDeleteMod={setIsDeleteMod}
+						/>
 					}
 				/>
 			</Route>

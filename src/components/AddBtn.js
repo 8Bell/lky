@@ -27,6 +27,8 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import NoPhotographyRoundedIcon from '@mui/icons-material/NoPhotographyRounded';
 import './AddBtn.css';
+import { BreakfastDiningOutlined } from '@mui/icons-material';
+import { color } from '@mui/system';
 
 const Input = styled('input')({
 	display: 'none',
@@ -38,13 +40,24 @@ const actions = [
 	{ icon: <PhotoSizeSelectLargeIcon />, name: '사진 수정' },
 ];
 
-export default function AddBtn() {
+export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 	const [open, setOpen] = useState(false);
 	const [openUploadDialog, setOpenUploadDialog] = useState(false);
 
-	const handleClickOpen = () => {
-    switch
-		setOpenUploadDialog(true);
+	const handleClickOpen = (name) => {
+		switch (name) {
+			case '사진 업로드':
+				setOpenUploadDialog(true);
+				break;
+			case '사진 삭제':
+				setIsDeleteMod((prev) => !prev);
+				break;
+			case '사진 수정':
+				break;
+			default:
+				break;
+		}
+		console.log(name, isDeleteMod);
 	};
 	const handleClickClose = () => {
 		setOpenUploadDialog(false);
@@ -84,13 +97,20 @@ export default function AddBtn() {
 					onClose={handleClose}
 					onOpen={handleOpen}
 					open={open}>
-					{actions.map((action) => (
+					{actions.map((action, index) => (
 						<SpeedDialAction
 							key={action.name}
 							icon={action.icon}
 							tooltipTitle={action.name}
-							onClick={handleClickOpen(action)}
-							sx={{ color: '#2c362a', filter: 'brightness(2)' }}
+							onClick={() => handleClickOpen(action.name)}
+							sx={{
+								color: '#2c362a',
+								filter: `${
+									isDeleteMod && index == 1
+										? 'drop-shadow(0px 0px 10px black) invert(100%) contrast(30%) grayscale(100%) '
+										: 'brightness(2)'
+								}`,
+							}}
 						/>
 					))}
 				</SpeedDial>

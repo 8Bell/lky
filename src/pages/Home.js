@@ -47,7 +47,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	justifyContent: 'flex-end',
 }));
 
-function Home({ isLoggedIn, setIsLoggedIn }) {
+function Home({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 	const arr = Array.from({ length: 20 }, (v, i) => i);
 
 	const [open, setOpen] = useState(false);
@@ -78,7 +78,7 @@ function Home({ isLoggedIn, setIsLoggedIn }) {
 												gridAutoFlow: 'column',
 												gridTemplateColumns: '1fr',
 											}}>
-											{isLoggedIn && (
+											{isDeleteMod && (
 												<Fab
 													aria-label='close'
 													size='small'
@@ -127,6 +127,8 @@ function Home({ isLoggedIn, setIsLoggedIn }) {
 					setOpen={setOpen}
 					isLoggedIn={isLoggedIn}
 					setIsLoggedIn={setIsLoggedIn}
+					isDeleteMod={isDeleteMod}
+					setIsDeleteMod={setIsDeleteMod}
 				/>
 			</Box>
 		</div>

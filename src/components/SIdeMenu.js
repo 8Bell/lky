@@ -21,6 +21,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { authService } from '../fbase';
 import AddBtn from './AddBtn';
+import { useState } from 'react';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -31,13 +32,22 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	justifyContent: 'flex-end',
 }));
 
-export default function SideMenu({ open, setOpen, isLoggedIn, setIsLoggedIn }) {
+export default function SideMenu({
+	open,
+	setOpen,
+	isLoggedIn,
+	setIsLoggedIn,
+	isDeleteMod,
+	setIsDeleteMod,
+}) {
 	const drawerWidth = 230;
+	const [contactMenu, setContactMenu] = useState(false);
 
 	const theme = useTheme();
 
 	const handleDrawerClose = () => {
 		setOpen(false);
+		setContactMenu(false);
 	};
 
 	const linkTo = (text) => {
@@ -48,6 +58,8 @@ export default function SideMenu({ open, setOpen, isLoggedIn, setIsLoggedIn }) {
 				return '/sorok';
 			case 'Notice':
 				return '/notice';
+			// case 'Contact ▾':
+			// 	break;
 			default:
 				return '/';
 		}
@@ -57,6 +69,10 @@ export default function SideMenu({ open, setOpen, isLoggedIn, setIsLoggedIn }) {
 		setIsLoggedIn(false);
 		authService.signOut();
 		window.location.reload();
+	};
+
+	const handleContactMenuOpen = () => {
+		setContactMenu((prev) => !prev);
 	};
 
 	console.log(isLoggedIn);
@@ -113,13 +129,22 @@ export default function SideMenu({ open, setOpen, isLoggedIn, setIsLoggedIn }) {
 								{text !== 'divider' ? (
 									<ListItem disablePadding>
 										<ListItemButton>
-											<Link
-												to={linkTo(text)}
-												className='linkTo'>
+											{index == 7 ? (
 												<ListItemText
 													primary={text}
+													onClick={
+														handleContactMenuOpen
+													}
 												/>
-											</Link>
+											) : (
+												<Link
+													to={linkTo(text)}
+													className='linkTo'>
+													<ListItemText
+														primary={text}
+													/>
+												</Link>
+											)}
 										</ListItemButton>
 									</ListItem>
 								) : (
@@ -134,6 +159,19 @@ export default function SideMenu({ open, setOpen, isLoggedIn, setIsLoggedIn }) {
 						</div>
 					))}
 				</List>
+				<Fade
+					direction='down'
+					duration={800}
+					cascade={true}
+					damping={0.2}
+					style={{ display: `${contactMenu ? 'block' : 'none'}` }}>
+					<Typography sx={{ marginLeft: '15px', marginBottom: '15px' }}>
+						Kakao
+					</Typography>
+					<Typography sx={{ marginLeft: '15px', marginBottom: '15px' }}>
+						Instagram
+					</Typography>
+				</Fade>
 
 				<IconButton
 					sx={{
@@ -171,7 +209,9 @@ export default function SideMenu({ open, setOpen, isLoggedIn, setIsLoggedIn }) {
 					)}
 				</IconButton>
 			</Drawer>
-			{isLoggedIn && <AddBtn />}
+			{isLoggedIn && (
+				<AddBtn isDeleteMod={isDeleteMod} setIsDeleteMod={setIsDeleteMod} />
+			)}
 		</div>
 	);
 }

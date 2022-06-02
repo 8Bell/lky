@@ -42,7 +42,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	justifyContent: 'flex-end',
 }));
 
-function Landscape({ isLoggedIn, setIsLoggedIn }) {
+function Landscape({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 	const arr = Array.from({ length: 20 }, (v, i) => i);
 
 	const [open, setOpen] = useState(false);
@@ -121,6 +121,8 @@ function Landscape({ isLoggedIn, setIsLoggedIn }) {
 					setOpen={setOpen}
 					isLoggedIn={isLoggedIn}
 					setIsLoggedIn={setIsLoggedIn}
+					isDeleteMod={isDeleteMod}
+					setIsDeleteMod={setIsDeleteMod}
 				/>
 			</Box>
 		</div>
