@@ -41,7 +41,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	justifyContent: 'flex-end',
 }));
 
-function Home() {
+function Sorok() {
 	const arr = Array.from({ length: 20 }, (v, i) => i);
 
 	const [open, setOpen] = useState(false);
@@ -83,4 +83,4 @@ function Home() {
 	);
 }
 
-export default Home;
+export default Sorok;

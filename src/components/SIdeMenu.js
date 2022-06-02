@@ -1,16 +1,21 @@
 import {
 	Divider,
 	Drawer,
+	Grid,
 	IconButton,
 	List,
 	ListItem,
 	ListItemButton,
 	ListItemText,
+	Typography,
 } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { styled, useTheme } from '@mui/material/styles';
 import { Fade } from 'react-awesome-reveal';
+import { Link } from 'react-router-dom';
+import './SideMenu.css';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -22,13 +27,27 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function SideMenu({ open, setOpen }) {
-	const drawerWidth = 250;
+	const drawerWidth = 230;
 
 	const theme = useTheme();
 
 	const handleDrawerClose = () => {
 		setOpen(false);
 	};
+
+	const linkTo = (text) => {
+		switch (text) {
+			case 'Landscape':
+				return '/landscape';
+			case 'Studio Sorok':
+				return '/sorok';
+			case 'Notice':
+				return '/notice';
+			default:
+				return '/';
+		}
+	};
+	console.log(linkTo('Portrait'));
 
 	return (
 		<Drawer
@@ -45,13 +64,15 @@ export default function SideMenu({ open, setOpen }) {
 			anchor='right'
 			open={open}>
 			<DrawerHeader>
-				<IconButton onClick={handleDrawerClose} style={{ color: '#fbfbfb' }}>
-					{theme.direction === 'rtl' ? (
-						<ChevronLeftIcon fontSize='large' />
-					) : (
-						<ChevronRightIcon fontSize='large' />
-					)}
-				</IconButton>
+				<Fade direction='right'>
+					<IconButton onClick={handleDrawerClose} style={{ color: '#fbfbfb' }}>
+						{theme.direction === 'rtl' ? (
+							<ChevronLeftIcon fontSize='large' />
+						) : (
+							<ChevronRightIcon fontSize='large' />
+						)}
+					</IconButton>
+				</Fade>
 			</DrawerHeader>
 
 			<List
@@ -72,13 +93,17 @@ export default function SideMenu({ open, setOpen }) {
 						<Fade
 							direction='right'
 							duration={900}
-							delay={index * 100}
+							delay={index * 80}
 							cascade={true}
 							damping={0.2}>
 							{text !== 'divider' ? (
 								<ListItem key={text} disablePadding>
 									<ListItemButton>
-										<ListItemText primary={text} />
+										<Link
+											to={linkTo(text)}
+											className='linkTo'>
+											<ListItemText primary={text} />
+										</Link>
 									</ListItemButton>
 								</ListItem>
 							) : (
@@ -93,6 +118,16 @@ export default function SideMenu({ open, setOpen }) {
 					</div>
 				))}
 			</List>
+
+			<IconButton
+				sx={{
+					color: '#2e382c',
+					position: 'absolute',
+					bottom: '10px',
+					right: '10px',
+				}}>
+				<SettingsIcon fontSize='small' />
+			</IconButton>
 		</Drawer>
 	);
 }

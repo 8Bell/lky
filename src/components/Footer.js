@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, Link, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 export default function Footer() {
@@ -31,6 +31,7 @@ export default function Footer() {
 				}}>
 				Leegyuyeon
 			</Typography>
+
 			<Typography
 				sx={[
 					{
@@ -43,11 +44,16 @@ export default function Footer() {
 						color: '#999',
 					},
 				]}>
-				@analogyuyeon
+				<Link
+					href='https://www.instagram.com/analogyuyeon'
+					sx={{ color: '#999' }}
+					underline='none'>
+					@analogyuyeon
+				</Link>
 			</Typography>
 			<Typography
 				sx={{
-					margin: theme.spacing(2, 0, 2, 0),
+					margin: theme.spacing(2, 0, 5, 0),
 					color: '#999',
 				}}>
 				{'© Leegyuyeon ' + new Date().getFullYear() + '. All rights reserved'}

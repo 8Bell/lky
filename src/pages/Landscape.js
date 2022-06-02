@@ -48,7 +48,7 @@ function Landscape() {
 
 	return (
 		<div className='App'>
-			<div id='page-loading-blocs-notifaction' class='page-preloader'></div>
+			{/* <div id='page-loading-blocs-notifaction' class='page-preloader'></div> */}
 
 			<Box sx={{ display: 'flex' }}>
 				<CssBaseline />
@@ -66,6 +66,7 @@ function Landscape() {
 												height: '500px',
 												backgroundColor: 'grey',
 												margin: '2px',
+												borderRadius: 0,
 											}}>
 											{idx + 1}
 										</Paper>

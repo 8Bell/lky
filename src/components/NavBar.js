@@ -3,6 +3,7 @@ import { IconButton, Toolbar, Typography } from '@mui/material';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled, useTheme } from '@mui/material/styles';
+import { Fade } from 'react-awesome-reveal';
 
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== 'open',
@@ -49,34 +50,37 @@ export default function NavBar({ open, setOpen }) {
 			position='fixed'
 			open={open}
 			style={{
-				backgroundColor: '#fbfbfb',
-				color: '#333',
-				boxShadow: navShadow ? ' 0 3px 5px 5px rgba(100,100,100,0.3)' : 'none',
+				backgroundColor: 'rgba(240,240,240,0.3)',
+				backdropFilter: 'blur(5px)',
+				WebkitBackdropFilter: 'blur(5px)',
+				boxShadow: navShadow ? ' 0 2px 2px 2px rgba(100,100,100,0.2)' : 'none',
 
 				transitionProperty: 'all',
 				transitionDuration: '0.2s',
 			}}>
 			<Toolbar>
 				<Typography
-					variant='h5'
+					variant='h6'
 					noWrap
 					sx={{
 						flexGrow: 2,
 						fontFamily: 'JejuMyeongjo',
 						fontWeight: 'bold',
-						color: 'rgba(0, 0, 0, 0.6)',
+						color: '#2c362a',
 					}}
 					component='div'
 					align='left'>
 					Leegyuyeon
 				</Typography>
+
 				<IconButton
-					style={{ color: '#333' }}
 					aria-label='open drawer'
 					edge='end'
 					onClick={handleDrawerOpen}
 					sx={{ ...(open && { display: 'none' }) }}>
-					<MenuRoundedIcon fontSize='large' />
+					<MenuRoundedIcon
+						sx={{ width: '30px', height: 'auto', color: '#888' }}
+					/>
 				</IconButton>
 			</Toolbar>
 		</AppBar>
