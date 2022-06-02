@@ -1,75 +1,98 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import {
+	Divider,
+	Drawer,
+	IconButton,
+	List,
+	ListItem,
+	ListItemButton,
+	ListItemText,
+} from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { styled, useTheme } from '@mui/material/styles';
+import { Fade } from 'react-awesome-reveal';
 
-export default function SideMenu() {
-	const [menuOpen, setMenuOpen] = React.useState(false);
-	const toggleDrawer = (input, event) => {
-		if (
-			event &&
-			event.type === 'keydown' &&
-			(event.key === 'Tab' || event.key === 'Shift')
-		) {
-			return;
-		}
-		setMenuOpen(input);
+const DrawerHeader = styled('div')(({ theme }) => ({
+	display: 'flex',
+	alignItems: 'center',
+	padding: theme.spacing(0, 0),
+	// necessary for content to be below app bar
+	...theme.mixins.toolbar,
+	justifyContent: 'flex-end',
+}));
+
+export default function SideMenu({ open, setOpen }) {
+	const drawerWidth = 250;
+
+	const theme = useTheme();
+
+	const handleDrawerClose = () => {
+		setOpen(false);
 	};
 
-	const list = (anchor) => (
-		<Box
-			sx={{ width: 250 }}
-			role='presentation'
-			onClick={toggleDrawer(false)}
-			onKeyDown={toggleDrawer(false)}>
-			<List>
-				{['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
-			<Divider />
-			<List>
-				{['All mail', 'Trash', 'Spam'].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
-		</Box>
-	);
-
 	return (
-		<div>
-			<React.Fragment>
-				<Button onClick={toggleDrawer(true)}>{menuOpen}</Button>
-				<SwipeableDrawer
-					anchor={menuOpen}
-					open={menuOpen}
-					onClose={toggleDrawer(false)}
-					onOpen={toggleDrawer(true)}>
-					{list(menuOpen)}
-				</SwipeableDrawer>
-			</React.Fragment>
-		</div>
+		<Drawer
+			sx={{
+				width: drawerWidth,
+				flexShrink: 0,
+				'& .MuiDrawer-paper': {
+					width: drawerWidth,
+					backgroundColor: '#2c362a',
+					color: '#fbfbfb',
+				},
+			}}
+			//variant='persistent'
+			anchor='right'
+			open={open}>
+			<DrawerHeader>
+				<IconButton onClick={handleDrawerClose} style={{ color: '#fbfbfb' }}>
+					{theme.direction === 'rtl' ? (
+						<ChevronLeftIcon fontSize='large' />
+					) : (
+						<ChevronRightIcon fontSize='large' />
+					)}
+				</IconButton>
+			</DrawerHeader>
+
+			<List
+				style={{
+					transition: 'all 0.2s linear',
+				}}>
+				{[
+					'Leegyuyeon',
+					'divider',
+					'Portrait',
+					'Landscape',
+					'divider',
+					'Studio Sorok',
+					'Notice',
+					'Contact ▾',
+				].map((text, index) => (
+					<div>
+						<Fade
+							direction='right'
+							duration={900}
+							delay={index * 100}
+							cascade={true}
+							damping={0.2}>
+							{text !== 'divider' ? (
+								<ListItem key={text} disablePadding>
+									<ListItemButton>
+										<ListItemText primary={text} />
+									</ListItemButton>
+								</ListItem>
+							) : (
+								<Divider
+									style={{
+										backgroundColor: '#fbfbfb',
+										marginLeft: '15px',
+									}}
+								/>
+							)}
+						</Fade>
+					</div>
+				))}
+			</List>
+		</Drawer>
 	);
 }
