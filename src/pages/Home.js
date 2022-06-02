@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Badge, Fab, Grid, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import '../App.css';
 import Paper from '@mui/material/Paper';
@@ -14,6 +14,10 @@ import NavBar from '../components/NavBar';
 import SideMenu from '../components/SIdeMenu';
 import { useTheme } from '@emotion/react';
 import { authService } from '../fbase';
+import AddBtn from '../components/AddBtn';
+import AddIcon from '@mui/icons-material/Add';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import './closebutton.css';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 	({ theme, open }) => ({
@@ -70,8 +74,46 @@ function Home({ isLoggedIn, setIsLoggedIn }) {
 												backgroundColor: 'grey',
 												margin: '3px',
 												borderRadius: 0,
+												display: 'grid',
+												gridAutoFlow: 'column',
+												gridTemplateColumns: '1fr',
 											}}>
-											{idx + 1}
+											{isLoggedIn && (
+												<Fab
+													aria-label='close'
+													size='small'
+													sx={[
+														{
+															'&:hover':
+																{
+																	backgroundColor:
+																		'#2c362a',
+																	filter: 'brightness(1.5)',
+																},
+														},
+														{
+															backgroundColor:
+																'#2c362a',
+															color: '#fbfbfb',
+														},
+														{
+															width: 21,
+															height: 21,
+															minHeight: 0,
+															marginLeft: 1,
+															marginTop: 1,
+														},
+													]}>
+													<CloseRoundedIcon
+														sx={{
+															width: 15,
+															height: 15,
+															margin: 0,
+															padding: 0,
+														}}
+													/>
+												</Fab>
+											)}
 										</Paper>
 									</Fade>
 								</Grid>

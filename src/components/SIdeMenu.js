@@ -17,9 +17,10 @@ import { Fade } from 'react-awesome-reveal';
 import { Link } from 'react-router-dom';
 import './SideMenu.css';
 import SettingsIcon from '@mui/icons-material/Settings';
-import AddIcon from '@mui/icons-material/Add';
+
 import LogoutIcon from '@mui/icons-material/Logout';
 import { authService } from '../fbase';
+import AddBtn from './AddBtn';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -159,35 +160,18 @@ export default function SideMenu({ open, setOpen, isLoggedIn, setIsLoggedIn }) {
 							<SettingsIcon
 								fontSize='small'
 								sx={{
-									color: '#fff',
+									color: '#2c362a',
 									position: 'absolute',
 									bottom: '10px',
 									right: '10px',
+									filter: 'brightness(1.04)',
 								}}
 							/>
 						</Link>
 					)}
 				</IconButton>
 			</Drawer>
-			<Fab
-				aria-label='add'
-				sx={[
-					{
-						'&:hover': {
-							backgroundColor: '#2c362a',
-							filter: 'brightness(1.5)',
-						},
-					},
-					{
-						position: 'fixed',
-						right: '20px',
-						bottom: '20px',
-						backgroundColor: '#2c362a',
-						color: '#fbfbfb',
-					},
-				]}>
-				<AddIcon />
-			</Fab>
+			{isLoggedIn && <AddBtn />}
 		</div>
 	);
 }

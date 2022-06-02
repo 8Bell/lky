@@ -17,8 +17,8 @@ export default function Footer() {
 					{
 						margin: theme.spacing(10, 0, 7, 0),
 						borderRadius: '30px',
-						padding: theme.spacing(1.6, 2, 1.6, 2),
-						fontSize: '17px',
+						padding: theme.spacing(1, 1.3, 1, 1.3),
+						fontSize: '15px',
 						backgroundColor: '#2c362a',
 					},
 				]}>

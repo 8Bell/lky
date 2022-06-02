@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Fab, Grid, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import '../App.css';
 import Paper from '@mui/material/Paper';
@@ -12,6 +12,7 @@ import { Fade } from 'react-awesome-reveal';
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SIdeMenu';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 	({ theme, open }) => ({
@@ -67,8 +68,46 @@ function Landscape({ isLoggedIn, setIsLoggedIn }) {
 												backgroundColor: 'grey',
 												margin: '3px',
 												borderRadius: 0,
+												display: 'grid',
+												gridAutoFlow: 'column',
+												gridTemplateColumns: '1fr',
 											}}>
-											{idx + 1}
+											{isLoggedIn && (
+												<Fab
+													aria-label='close'
+													size='small'
+													sx={[
+														{
+															'&:hover':
+																{
+																	backgroundColor:
+																		'#2c362a',
+																	filter: 'brightness(1.5)',
+																},
+														},
+														{
+															backgroundColor:
+																'#2c362a',
+															color: '#fbfbfb',
+														},
+														{
+															width: 21,
+															height: 21,
+															minHeight: 0,
+															marginLeft: 1,
+															marginTop: 1,
+														},
+													]}>
+													<CloseRoundedIcon
+														sx={{
+															width: 15,
+															height: 15,
+															margin: 0,
+															padding: 0,
+														}}
+													/>
+												</Fab>
+											)}
 										</Paper>
 									</Fade>
 								</Grid>
