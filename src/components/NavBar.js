@@ -4,6 +4,7 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled, useTheme } from '@mui/material/styles';
 import { Fade } from 'react-awesome-reveal';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== 'open',
@@ -24,7 +25,7 @@ const AppBar = styled(MuiAppBar, {
 	}),
 }));
 
-export default function NavBar({ open, setOpen }) {
+export default function NavBar({ open, setOpen, isLoggedIn }) {
 	useEffect(() => {
 		window.addEventListener('scroll', () => {
 			if (window.scrollY > 20) {
@@ -50,15 +51,22 @@ export default function NavBar({ open, setOpen }) {
 			position='fixed'
 			open={open}
 			style={{
-				backgroundColor: 'rgba(240,240,240,0.3)',
+				backgroundColor: 'rgba(251,251,251,0.3)',
 				backdropFilter: 'blur(5px)',
 				WebkitBackdropFilter: 'blur(5px)',
 				boxShadow: navShadow ? ' 0 2px 2px 2px rgba(100,100,100,0.2)' : 'none',
-
 				transitionProperty: 'all',
 				transitionDuration: '0.2s',
 			}}>
 			<Toolbar>
+				{isLoggedIn && (
+					<SettingsIcon
+						sx={{
+							color: '#2c362a',
+							marginRight: '10px',
+						}}
+					/>
+				)}
 				<Typography
 					variant='h6'
 					noWrap

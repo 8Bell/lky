@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import '../App.css';
 import Paper from '@mui/material/Paper';
@@ -41,7 +41,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	justifyContent: 'flex-end',
 }));
 
-function Landscape() {
+function Landscape({ isLoggedIn, setIsLoggedIn }) {
 	const arr = Array.from({ length: 20 }, (v, i) => i);
 
 	const [open, setOpen] = useState(false);
@@ -52,10 +52,10 @@ function Landscape() {
 
 			<Box sx={{ display: 'flex' }}>
 				<CssBaseline />
-				<NavBar open={open} setOpen={setOpen} />
+				<NavBar open={open} setOpen={setOpen} isLoggedIn={isLoggedIn} />
 				<Main open={open}>
 					<DrawerHeader />
-					<Container maxWidth={false}>
+					<Container maxWidth={false} style={{ padding: (0, 3, 0, 3) }}>
 						<Grid container>
 							{arr.map((a, idx) => (
 								<Grid xs={12} md={6} lg={3} key={idx}>
@@ -65,7 +65,7 @@ function Landscape() {
 											style={{
 												height: '500px',
 												backgroundColor: 'grey',
-												margin: '2px',
+												margin: '3px',
 												borderRadius: 0,
 											}}>
 											{idx + 1}
@@ -77,7 +77,12 @@ function Landscape() {
 						</Grid>
 					</Container>
 				</Main>
-				<SideMenu open={open} setOpen={setOpen} />
+				<SideMenu
+					open={open}
+					setOpen={setOpen}
+					isLoggedIn={isLoggedIn}
+					setIsLoggedIn={setIsLoggedIn}
+				/>
 			</Box>
 		</div>
 	);

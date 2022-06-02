@@ -1,6 +1,7 @@
 import {
 	Divider,
 	Drawer,
+	Fab,
 	Grid,
 	IconButton,
 	List,
@@ -16,6 +17,9 @@ import { Fade } from 'react-awesome-reveal';
 import { Link } from 'react-router-dom';
 import './SideMenu.css';
 import SettingsIcon from '@mui/icons-material/Settings';
+import AddIcon from '@mui/icons-material/Add';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { authService } from '../fbase';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -26,7 +30,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	justifyContent: 'flex-end',
 }));
 
-export default function SideMenu({ open, setOpen }) {
+export default function SideMenu({ open, setOpen, isLoggedIn, setIsLoggedIn }) {
 	const drawerWidth = 230;
 
 	const theme = useTheme();
@@ -47,87 +51,143 @@ export default function SideMenu({ open, setOpen }) {
 				return '/';
 		}
 	};
-	console.log(linkTo('Portrait'));
 
+	const handleSignOut = () => {
+		setIsLoggedIn(false);
+		authService.signOut();
+		window.location.reload();
+	};
+
+	console.log(isLoggedIn);
 	return (
-		<Drawer
-			sx={{
-				width: drawerWidth,
-				flexShrink: 0,
-				'& .MuiDrawer-paper': {
-					width: drawerWidth,
-					backgroundColor: '#2c362a',
-					color: '#fbfbfb',
-				},
-			}}
-			//variant='persistent'
-			anchor='right'
-			open={open}>
-			<DrawerHeader>
-				<Fade direction='right'>
-					<IconButton onClick={handleDrawerClose} style={{ color: '#fbfbfb' }}>
-						{theme.direction === 'rtl' ? (
-							<ChevronLeftIcon fontSize='large' />
-						) : (
-							<ChevronRightIcon fontSize='large' />
-						)}
-					</IconButton>
-				</Fade>
-			</DrawerHeader>
-
-			<List
-				style={{
-					transition: 'all 0.2s linear',
-				}}>
-				{[
-					'Leegyuyeon',
-					'divider',
-					'Portrait',
-					'Landscape',
-					'divider',
-					'Studio Sorok',
-					'Notice',
-					'Contact ▾',
-				].map((text, index) => (
-					<div>
-						<Fade
-							direction='right'
-							duration={900}
-							delay={index * 80}
-							cascade={true}
-							damping={0.2}>
-							{text !== 'divider' ? (
-								<ListItem key={text} disablePadding>
-									<ListItemButton>
-										<Link
-											to={linkTo(text)}
-											className='linkTo'>
-											<ListItemText primary={text} />
-										</Link>
-									</ListItemButton>
-								</ListItem>
-							) : (
-								<Divider
-									style={{
-										backgroundColor: '#fbfbfb',
-										marginLeft: '15px',
-									}}
-								/>
-							)}
-						</Fade>
-					</div>
-				))}
-			</List>
-
-			<IconButton
+		<div>
+			<Drawer
 				sx={{
-					color: '#2e382c',
-					position: 'absolute',
-					bottom: '10px',
-					right: '10px',
-				}}>
-				<SettingsIcon fontSize='small' />
-			</IconButton>
-		</Drawer>
+					width: drawerWidth,
+					flexShrink: 0,
+					'& .MuiDrawer-paper': {
+						width: drawerWidth,
+						backgroundColor: '#2c362a',
+						color: '#fbfbfb',
+					},
+				}}
+				//variant='persistent'
+				anchor='right'
+				open={open}>
+				<DrawerHeader>
+					<Fade direction='right'>
+						<IconButton
+							onClick={handleDrawerClose}
+							style={{ color: '#fbfbfb' }}>
+							{theme.direction === 'rtl' ? (
+								<ChevronLeftIcon fontSize='large' />
+							) : (
+								<ChevronRightIcon fontSize='large' />
+							)}
+						</IconButton>
+					</Fade>
+				</DrawerHeader>
+
+				<List
+					style={{
+						transition: 'all 0.2s linear',
+					}}>
+					{[
+						'Leegyuyeon',
+						'divider',
+						'Portrait',
+						'Landscape',
+						'divider',
+						'Studio Sorok',
+						'Notice',
+						'Contact ▾',
+					].map((text, index) => (
+						<div key={index}>
+							<Fade
+								direction='right'
+								duration={900}
+								delay={index * 80}
+								cascade={true}
+								damping={0.2}>
+								{text !== 'divider' ? (
+									<ListItem disablePadding>
+										<ListItemButton>
+											<Link
+												to={linkTo(text)}
+												className='linkTo'>
+												<ListItemText
+													primary={text}
+												/>
+											</Link>
+										</ListItemButton>
+									</ListItem>
+								) : (
+									<Divider
+										style={{
+											backgroundColor: '#fbfbfb',
+											marginLeft: '15px',
+										}}
+									/>
+								)}
+							</Fade>
+						</div>
+					))}
+				</List>
+
+				<IconButton
+					sx={{
+						color: '#fff',
+						position: 'absolute',
+						bottom: '10px',
+						right: '10px',
+					}}>
+					{isLoggedIn ? (
+						<Link to='/'>
+							<LogoutIcon
+								fontSize='small'
+								onClick={() => handleSignOut()}
+								sx={{
+									color: '#fff',
+									position: 'absolute',
+									bottom: '10px',
+									right: '10px',
+								}}
+							/>
+						</Link>
+					) : (
+						<Link to='/auth'>
+							<SettingsIcon
+								fontSize='small'
+								sx={{
+									color: '#fff',
+									position: 'absolute',
+									bottom: '10px',
+									right: '10px',
+								}}
+							/>
+						</Link>
+					)}
+				</IconButton>
+			</Drawer>
+			<Fab
+				aria-label='add'
+				sx={[
+					{
+						'&:hover': {
+							backgroundColor: '#2c362a',
+							filter: 'brightness(1.5)',
+						},
+					},
+					{
+						position: 'fixed',
+						right: '20px',
+						bottom: '20px',
+						backgroundColor: '#2c362a',
+						color: '#fbfbfb',
+					},
+				]}>
+				<AddIcon />
+			</Fab>
+		</div>
 	);
 }

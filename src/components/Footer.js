@@ -11,7 +11,7 @@ export default function Footer() {
 					{
 						'&:hover': {
 							backgroundColor: '#2c362a',
-							filter: 'brightness(1.8)',
+							filter: 'brightness(1.5)',
 						},
 					},
 					{
@@ -53,7 +53,7 @@ export default function Footer() {
 			</Typography>
 			<Typography
 				sx={{
-					margin: theme.spacing(2, 0, 5, 0),
+					margin: theme.spacing(2, 0, 2, 0),
 					color: '#999',
 				}}>
 				{'© Leegyuyeon ' + new Date().getFullYear() + '. All rights reserved'}
