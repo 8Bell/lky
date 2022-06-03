@@ -29,6 +29,7 @@ import NoPhotographyRoundedIcon from '@mui/icons-material/NoPhotographyRounded';
 import './AddBtn.css';
 import { BreakfastDiningOutlined } from '@mui/icons-material';
 import { color } from '@mui/system';
+import { dbService } from '../fbase';
 
 const Input = styled('input')({
 	display: 'none',
@@ -43,11 +44,13 @@ const actions = [
 export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 	const [open, setOpen] = useState(false);
 	const [openUploadDialog, setOpenUploadDialog] = useState(false);
+	const [file, setFile] = useState('');
 
 	const handleClickOpen = (name) => {
 		switch (name) {
 			case '사진 업로드':
 				setOpenUploadDialog(true);
+				setFile('');
 				break;
 			case '사진 삭제':
 				setIsDeleteMod((prev) => !prev);
@@ -61,6 +64,8 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 	};
 	const handleClickClose = () => {
 		setOpenUploadDialog(false);
+		setFile('');
+		setTag('');
 	};
 
 	const handleClose = () => {
@@ -74,6 +79,25 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 	};
 
 	const handleOpen = () => setOpen(true);
+
+	//photo upload
+
+	const onFileChange = (e) => {
+		const {
+			target: { files },
+		} = e;
+		const theFile = files[0];
+		const reader = new FileReader();
+		reader.onloadend = (finishedEvent) => {
+			const {
+				currentTarget: { result },
+			} = finishedEvent;
+			setFile(result);
+		};
+		reader.readAsDataURL(theFile);
+	};
+
+	const photoUpload = () => {};
 
 	return (
 		<div>
@@ -118,12 +142,26 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 
 			<Dialog open={openUploadDialog} onClose={handleClickClose} fullWidth>
 				<DialogTitle>사진 업로드</DialogTitle>
+				{file !== '' && (
+					<img
+						alt='사진'
+						src={file}
+						width='200px'
+						height='auto'
+						style={{
+							display: 'table',
+							marginLeft: 'auto',
+							marginRight: 'auto',
+							borderRadius: '10px',
+						}}
+					/>
+				)}
 				<DialogContent>
 					<label htmlFor='contained-button-file'>
 						<Input
 							accept='image/*'
 							id='contained-button-file'
-							multiple
+							required
 							type='file'
 						/>
 					</label>
@@ -185,12 +223,14 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 								]}
 							/>
 						</Grid>
+
 						<Grid item xs={2}>
 							<label htmlFor='icon-button-file'>
 								<Input
 									accept='image/*'
 									id='icon-button-file'
 									type='file'
+									onChange={onFileChange}
 								/>
 								<IconButton
 									color='primary'
@@ -214,7 +254,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 					<Button onClick={handleClickClose} sx={{ color: '#2c362a' }}>
 						취소
 					</Button>
-					<Button onClick={handleClickClose} sx={{ color: '#2c362a' }}>
+					<Button onClick={photoUpload} sx={{ color: '#2c362a' }}>
 						업로드
 					</Button>
 				</DialogActions>
