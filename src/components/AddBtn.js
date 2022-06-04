@@ -28,8 +28,9 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import NoPhotographyRoundedIcon from '@mui/icons-material/NoPhotographyRounded';
 import './AddBtn.css';
 import { BreakfastDiningOutlined } from '@mui/icons-material';
-import { color } from '@mui/system';
-import { dbService } from '../fbase';
+import { color, height } from '@mui/system';
+import { dbService, storageService } from '../fbase';
+import { v4 as uuidv4 } from 'uuid';
 
 const Input = styled('input')({
 	display: 'none',
@@ -45,12 +46,13 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 	const [open, setOpen] = useState(false);
 	const [openUploadDialog, setOpenUploadDialog] = useState(false);
 	const [file, setFile] = useState('');
+	const [tag, setTag] = React.useState('');
+	const [title, setTitle] = useState('');
 
 	const handleClickOpen = (name) => {
 		switch (name) {
 			case '사진 업로드':
 				setOpenUploadDialog(true);
-				setFile('');
 				break;
 			case '사진 삭제':
 				setIsDeleteMod((prev) => !prev);
@@ -66,13 +68,12 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 		setOpenUploadDialog(false);
 		setFile('');
 		setTag('');
+		setTitle('');
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
-
-	const [tag, setTag] = React.useState('');
 
 	const handleChange = (event) => {
 		setTag(event.target.value);
@@ -81,6 +82,10 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 	const handleOpen = () => setOpen(true);
 
 	//photo upload
+
+	const handleTitleChange = (e) => {
+		setTitle(e.target.value);
+	};
 
 	const onFileChange = (e) => {
 		const {
@@ -97,7 +102,20 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 		reader.readAsDataURL(theFile);
 	};
 
-	const photoUpload = () => {};
+	const photoUpload = async (e) => {
+		e.preventDefault();
+		if (tag !== '' && title !== '' && file !== '') {
+			const fileRef = storageService.ref().child(`${tag}/${title}/${uuidv4()}`);
+			const response = await fileRef.putString(file, 'data_url');
+			handleClickClose();
+		} else if (tag == '') {
+			alert('카테고리를 선택해주세요.');
+		} else if (title == '') {
+			alert('사진의 제목을 입력해주세요.');
+		} else if (file == '') {
+			alert('사진을 첨부해주세요.');
+		}
+	};
 
 	return (
 		<div>
@@ -146,8 +164,8 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 					<img
 						alt='사진'
 						src={file}
-						width='200px'
-						height='auto'
+						width='90%'
+						maxHeight='500px'
 						style={{
 							display: 'table',
 							marginLeft: 'auto',
@@ -156,7 +174,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 						}}
 					/>
 				)}
-				<DialogContent>
+				<DialogContent sx={{ minHeight: '150px' }}>
 					<label htmlFor='contained-button-file'>
 						<Input
 							accept='image/*'
@@ -205,6 +223,8 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 								fullWidth
 								variant='outlined'
 								size='small'
+								onChange={handleTitleChange}
+								value={title}
 								sx={[
 									{
 										'& label.Mui-focused': {
