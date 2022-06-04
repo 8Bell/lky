@@ -1,3 +1,4 @@
+import { createTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
@@ -7,6 +8,7 @@ import { authService } from './fbase';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
 import Landscape from './pages/Landscape';
+import Notice from './pages/Notice';
 import Sorok from './pages/Sorok';
 
 const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
@@ -63,6 +65,17 @@ const App = () => {
 					path='/sorok'
 					element={
 						<Sorok
+							isLoggedIn={isLoggedIn}
+							setIsLoggedIn={setIsLoggedIn}
+							isDeleteMod={isDeleteMod}
+							setIsDeleteMod={setIsDeleteMod}
+						/>
+					}
+				/>
+				<Route
+					path='/notice'
+					element={
+						<Notice
 							isLoggedIn={isLoggedIn}
 							setIsLoggedIn={setIsLoggedIn}
 							isDeleteMod={isDeleteMod}

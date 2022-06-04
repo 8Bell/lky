@@ -17,7 +17,7 @@ import { authService, dbService, storageService } from '../fbase';
 import AddBtn from '../components/AddBtn';
 import AddIcon from '@mui/icons-material/Add';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import './closebutton.css';
+import '../components/closebutton.css';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 	({ theme, open }) => ({
@@ -200,6 +200,13 @@ function Home({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 					noPic={noPic}
 				/>
 			</Box>
+			{isLoggedIn && (
+				<AddBtn
+					isDeleteMod={isDeleteMod}
+					setIsDeleteMod={setIsDeleteMod}
+					noPic={noPic}
+				/>
+			)}
 		</div>
 	);
 }

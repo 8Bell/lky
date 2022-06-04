@@ -1,13 +1,20 @@
 import {
 	Backdrop,
+	Chip,
 	CircularProgress,
+	createTheme,
+	Divider,
 	Fab,
 	FormControl,
 	Grid,
+	Grow,
 	IconButton,
 	InputLabel,
 	MenuItem,
 	Select,
+	Stack,
+	ThemeProvider,
+	Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
@@ -33,6 +40,8 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ShuffleOnIcon from '@mui/icons-material/ShuffleOn';
 import PhotoSizeSelectLargeIcon from '@mui/icons-material/PhotoSizeSelectLarge';
+import SdStorageRoundedIcon from '@mui/icons-material/SdStorageRounded';
+import CameraRollRoundedIcon from '@mui/icons-material/CameraRollRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import NoPhotographyRoundedIcon from '@mui/icons-material/NoPhotographyRounded';
@@ -52,14 +61,24 @@ const actions = [
 	//{ icon: <PhotoSizeSelectLargeIcon />, name: '사진 수정' },
 ];
 
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: '#2c362a',
+		},
+	},
+});
+
 export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 	const [open, setOpen] = useState(false);
 	const [openUploadDialog, setOpenUploadDialog] = useState(false);
 	const [file, setFile] = useState('');
-	const [tag, setTag] = React.useState('');
+	const [tag, setTag] = useState('');
+	const [processing, setProcessing] = useState('');
 	const [title, setTitle] = useState('');
 	const [uuid, setUuid] = useState('');
 	const [backdrop, setBackdrop] = useState(false);
+	const [selected, setSelected] = useState(false);
 
 	useEffect(() => {
 		!noPic && setIsDeleteMod(false);
@@ -85,14 +104,16 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 		setOpenUploadDialog(false);
 		setFile('');
 		setTag('');
+		setProcessing('');
 		setTitle('');
+		setSelected(false);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
 
-	const handleChange = (event) => {
+	const handleTagChange = (event) => {
 		setTag(event.target.value);
 	};
 
@@ -117,6 +138,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 			setFile(result);
 		};
 		reader.readAsDataURL(theFile);
+		setSelected(true);
 	};
 
 	const photoUpload = async (e) => {
@@ -132,6 +154,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 				createdAt: Date.now(),
 				fileUrl,
 				uuid,
+				processing,
 			};
 
 			await dbService
@@ -144,17 +167,26 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 
 			handleClickClose();
 			setUuid('');
-		} else if (tag === '') {
-			alert('카테고리를 선택해주세요.');
-		} else if (title === '') {
-			alert('사진의 제목을 입력해주세요.');
 		} else if (file === '') {
 			alert('사진을 첨부해주세요.');
+		} else if (title === '') {
+			alert('사진의 제목을 입력해주세요.');
+		} else if (tag === '') {
+			alert('카테고리를 선택해주세요.');
+		} else if (processing === '') {
+			alert('디지털/아날로그 구분을 선택해주세요.');
 		}
 	};
 
+	const choiceDigital = (e) => {
+		setProcessing('Digital');
+	};
+	const choiceAnalog = (e) => {
+		setProcessing('Analog');
+	};
+
 	return (
-		<div>
+		<ThemeProvider theme={theme}>
 			<Box
 				sx={{
 					height: 320,
@@ -165,7 +197,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 					bottom: '20px',
 				}}>
 				<SpeedDial
-					ariaLabel='SpeedDial controlled open example'
+					ariaLabel='SpeedDial'
 					sx={{
 						position: 'absolute',
 						bottom: 0,
@@ -175,112 +207,9 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 					onClose={handleClose}
 					onOpen={handleOpen}
 					open={open}>
-					{actions.map((action, index) => (
-						<SpeedDialAction
-							key={action.name}
-							icon={action.icon}
-							tooltipTitle={action.name}
-							onClick={() => handleClickOpen(action.name)}
-							sx={{
-								color: '#2c362a',
-								filter: `${
-									isDeleteMod && index == 1
-										? 'drop-shadow(0px 0px 10px black) invert(100%) contrast(30%) grayscale(100%) '
-										: 'brightness(2)'
-								}`,
-							}}
-						/>
-					))}
-				</SpeedDial>
-			</Box>
-
-			<Dialog open={openUploadDialog} onClose={handleClickClose} fullWidth>
-				<DialogTitle>사진 업로드</DialogTitle>
-				{file !== '' && (
-					<img
-						alt='사진'
-						src={file}
-						width='90%'
-						maxHeight='500px'
-						style={{
-							display: 'table',
-							marginLeft: 'auto',
-							marginRight: 'auto',
-							borderRadius: '10px',
-						}}
-					/>
-				)}
-				<DialogContent sx={{ minHeight: '150px' }}>
-					<label htmlFor='contained-button-file'>
-						<Input
-							accept='image/*'
-							id='contained-button-file'
-							required
-							type='file'
-						/>
-					</label>
-					<FormControl
-						fullWidth
-						size='small'
-						sx={[
-							{
-								'& label.Mui-focused': {
-									color: '#2c362a',
-								},
-								'& .MuiInput-underline:after': {
-									borderBottomColor: '#2c362a',
-								},
-								'& .MuiOutlinedInput-root': {
-									'&.Mui-focused fieldset': {
-										borderColor: '#2c362a',
-									},
-								},
-							},
-							{ marginTop: '20px' },
-						]}>
-						<InputLabel id='tag'>카테고리를 선택하세요.</InputLabel>
-						<Select
-							labelId='tag'
-							id='tag'
-							value={tag}
-							label='카테고리를 선택하세요.'
-							onChange={handleChange}>
-							<MenuItem value='Portrait'>Portrait</MenuItem>
-							<MenuItem value='Landscape'>Landscape</MenuItem>
-							<MenuItem value='Sorok'>Sorok</MenuItem>
-						</Select>
-					</FormControl>
-					<Grid container>
-						<Grid item xs={10}>
-							<TextField
-								id='name'
-								label='사진의 제목을 입력해주세요.'
-								type='text'
-								fullWidth
-								variant='outlined'
-								size='small'
-								onChange={handleTitleChange}
-								value={title}
-								sx={[
-									{
-										'& label.Mui-focused': {
-											color: '#2c362a',
-										},
-										'& .MuiInput-underline:after': {
-											borderBottomColor: '#2c362a',
-										},
-										'& .MuiOutlinedInput-root': {
-											'&.Mui-focused fieldset': {
-												borderColor: '#2c362a',
-											},
-										},
-									},
-									{ marginTop: '20px' },
-								]}
-							/>
-						</Grid>
-
-						<Grid item xs={2}>
+					<SpeedDialAction
+						key='사진 업로드'
+						icon={
 							<label htmlFor='icon-button-file'>
 								<Input
 									accept='image/*'
@@ -291,30 +220,171 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 								<IconButton
 									color='primary'
 									aria-label='upload picture'
-									component='span'
-									style={{}}>
-									<PhotoCamera
-										sx={{
-											fontSize: 35,
-											marginTop: '15px',
-											marginLeft: '5px',
-											color: '#2c362a',
-										}}
-									/>
+									component='span'>
+									<AddAPhotoIcon />
 								</IconButton>
 							</label>
-						</Grid>
-					</Grid>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClickClose} sx={{ color: '#2c362a' }}>
-						취소
-					</Button>
-					<Button onClick={photoUpload} sx={{ color: '#2c362a' }}>
-						업로드
-					</Button>
-				</DialogActions>
-			</Dialog>
+						}
+						tooltipTitle='사진 업로드'
+						onClick={() => handleClickOpen('사진 업로드')}
+						sx={{
+							color: '#2c362a',
+						}}
+					/>
+
+					<SpeedDialAction
+						key='사진 삭제'
+						icon={<NoPhotographyRoundedIcon />}
+						tooltipTitle='사진 삭제'
+						onClick={() => handleClickOpen('사진 삭제')}
+						sx={{
+							color: '#2c362a',
+							filter: `${
+								isDeleteMod
+									? 'drop-shadow(0px 0px 10px black) invert(100%) contrast(30%) grayscale(100%) '
+									: 'brightness(2)'
+							}`,
+						}}
+					/>
+				</SpeedDial>
+			</Box>
+			<Grow in={selected}>
+				<Dialog open={openUploadDialog} onClose={handleClickClose}>
+					<DialogTitle
+						sx={{
+							fontWeight: 700,
+							fontSize: '22px',
+							color: 'primary',
+						}}>
+						사진 업로드
+					</DialogTitle>
+					{file !== '' && (
+						<div>
+							<Divider />
+							<img
+								alt='사진'
+								src={file}
+								width='90%'
+								maxHeight='500px'
+								style={{
+									display: 'table',
+									margin: '20px auto',
+									borderRadius: '10px',
+								}}
+							/>
+							<Divider />
+						</div>
+					)}
+					<DialogContent sx={{ minHeight: '205px' }}>
+						<TextField
+							id='name'
+							label='사진의 제목을 입력해주세요.'
+							type='text'
+							fullWidth
+							variant='outlined'
+							size='small'
+							onChange={handleTitleChange}
+							value={title}
+							sx={[
+								{
+									'& label.Mui-focused': {
+										color: '#2c362a',
+									},
+									'& .MuiInput-underline:after': {
+										borderBottomColor: '#2c362a',
+									},
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused fieldset': {
+											borderColor: '#2c362a',
+										},
+									},
+								},
+								{ marginTop: '5px' },
+							]}
+						/>
+
+						<FormControl
+							fullWidth
+							size='small'
+							sx={[
+								{
+									'& label.Mui-focused': {
+										color: '#2c362a',
+									},
+									'& .MuiInput-underline:after': {
+										borderBottomColor: '#2c362a',
+									},
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused fieldset': {
+											borderColor: '#2c362a',
+										},
+									},
+								},
+								{ marginTop: '20px' },
+							]}>
+							<InputLabel id='tag'>카테고리를 선택하세요.</InputLabel>
+							<Select
+								labelId='tag'
+								id='tag'
+								value={tag}
+								label='카테고리를 선택하세요.'
+								onChange={handleTagChange}>
+								<MenuItem value='Portrait'>Portrait</MenuItem>
+								<MenuItem value='Landscape'>Landscape</MenuItem>
+								<MenuItem value='Sorok'>Sorok</MenuItem>
+							</Select>
+						</FormControl>
+
+						<Stack direction='row' spacing={1} sx={{ mt: 3 }}>
+							<Chip
+								icon={<SdStorageRoundedIcon />}
+								label='Digital'
+								color={
+									processing === 'Digital'
+										? 'primary'
+										: 'default'
+								}
+								variant={
+									processing === 'Digital'
+										? 'filled'
+										: 'outlined'
+								}
+								onClick={choiceDigital}
+							/>
+							<Chip
+								icon={<CameraRollRoundedIcon />}
+								label='Analog'
+								color={
+									processing === 'Analog'
+										? 'primary'
+										: 'default'
+								}
+								variant={
+									processing === 'Analog'
+										? 'filled'
+										: 'outlined'
+								}
+								onClick={choiceAnalog}
+							/>
+						</Stack>
+					</DialogContent>
+					<Divider />
+					<DialogActions sx={{ mt: 2, mb: 3, mr: 2 }}>
+						<Button
+							onClick={handleClickClose}
+							variant='outlined'
+							color='primary'>
+							취소
+						</Button>
+						<Button
+							onClick={photoUpload}
+							variant='contained'
+							color='primary'>
+							업로드
+						</Button>
+					</DialogActions>
+				</Dialog>
+			</Grow>
 			<Backdrop
 				sx={{ color: '#fff', zIndex: 9999 }}
 				open={backdrop}
@@ -322,6 +392,6 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 			>
 				<CircularProgress color='inherit' />
 			</Backdrop>
-		</div>
+		</ThemeProvider>
 	);
 }

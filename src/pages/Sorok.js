@@ -17,7 +17,7 @@ import { authService, dbService, storageService } from '../fbase';
 import AddBtn from '../components/AddBtn';
 import AddIcon from '@mui/icons-material/Add';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import './closebutton.css';
+import '../components/closebutton.css';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 	({ theme, open }) => ({
@@ -98,6 +98,17 @@ function Sorok({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 					<DrawerHeader />
 					<Container maxWidth={false} style={{ padding: (0, 3, 0, 3) }}>
 						<Grid container>
+							<Grid xs={12} color='#888' sx={{ mt: 3, mb: 3 }}>
+								<Typography sx={{ mb: 1, fontFamily: 'Lato' }}>
+									Sorok
+								</Typography>
+								<Typography sx={{ fontFamily: 'Lato' }}>
+									소록 [小綠:小録]
+								</Typography>
+								<Typography sx={{ fontFamily: 'Lato' }}>
+									작은 숲과 작은 기록
+								</Typography>
+							</Grid>
 							{soroks.map((pic, idx) => (
 								<Grid xs={12} md={6} lg={3} key={idx}>
 									<Fade>
@@ -200,6 +211,13 @@ function Sorok({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 					noPic={noPic}
 				/>
 			</Box>
+			{isLoggedIn && (
+				<AddBtn
+					isDeleteMod={isDeleteMod}
+					setIsDeleteMod={setIsDeleteMod}
+					noPic={noPic}
+				/>
+			)}
 		</div>
 	);
 }

@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { styled, useTheme } from '@mui/material/styles';
 import { Fade } from 'react-awesome-reveal';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import './SideMenu.css';
 import SettingsIcon from '@mui/icons-material/Settings';
 
@@ -133,6 +133,11 @@ export default function SideMenu({
 											{index == 7 ? (
 												<ListItemText
 													primary={text}
+													primaryTypographyProps={{
+														fontFamily:
+															'Lato',
+														fontSize: '20px',
+													}}
 													onClick={
 														handleContactMenuOpen
 													}
@@ -140,9 +145,21 @@ export default function SideMenu({
 											) : (
 												<Link
 													to={linkTo(text)}
-													className='linkTo'>
+													className='linkTo'
+													onClick={() =>
+														Navigate(
+															linkTo(
+																text
+															)
+														)
+													}>
 													<ListItemText
 														primary={text}
+														primaryTypographyProps={{
+															fontFamily:
+																'Lato',
+															fontSize: '20px',
+														}}
 													/>
 												</Link>
 											)}
@@ -166,11 +183,29 @@ export default function SideMenu({
 					cascade={true}
 					damping={0.2}
 					style={{ display: `${contactMenu ? 'block' : 'none'}` }}>
-					<Typography sx={{ marginLeft: '15px', marginBottom: '15px' }}>
-						Kakao
+					<Typography
+						sx={{
+							marginLeft: '15px',
+							marginBottom: '15px',
+							fontFamily: 'Lato',
+							fontSize: '20px',
+						}}>
+						<a href='https://pf.kakao.com/_KDiHb/chat' className='linkTo'>
+							Kakao
+						</a>
 					</Typography>
-					<Typography sx={{ marginLeft: '15px', marginBottom: '15px' }}>
-						Instagram
+					<Typography
+						sx={{
+							marginLeft: '15px',
+							marginBottom: '15px',
+							fontFamily: 'Lato',
+							fontSize: '20px',
+						}}>
+						<a
+							href='https://www.instagram.com/analogyuyeon'
+							className='linkTo'>
+							Instagram
+						</a>
 					</Typography>
 				</Fade>
 
@@ -210,13 +245,6 @@ export default function SideMenu({
 					)}
 				</IconButton>
 			</Drawer>
-			{isLoggedIn && (
-				<AddBtn
-					isDeleteMod={isDeleteMod}
-					setIsDeleteMod={setIsDeleteMod}
-					noPic={noPic}
-				/>
-			)}
 		</div>
 	);
 }

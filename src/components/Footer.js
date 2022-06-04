@@ -7,6 +7,7 @@ export default function Footer() {
 		<Grid item xs={12}>
 			<Button
 				variant='contained'
+				href='https://pf.kakao.com/_KDiHb/chat'
 				sx={[
 					{
 						'&:hover': {
@@ -20,6 +21,8 @@ export default function Footer() {
 						padding: theme.spacing(1, 1.3, 1, 1.3),
 						fontSize: '15px',
 						backgroundColor: '#2c362a',
+						fontFamily: 'Lato',
+						fontWeight: 400,
 					},
 				]}>
 				Contact
@@ -29,6 +32,7 @@ export default function Footer() {
 					margin: theme.spacing(2, 0, 0, 0),
 					color: '#999',
 					fontSize: '14px',
+					fontFamily: 'Lato',
 				}}>
 				Leegyuyeon
 			</Typography>
@@ -44,6 +48,7 @@ export default function Footer() {
 						margin: theme.spacing(2, 0, 0, 0),
 						color: '#999',
 						fontSize: '14px',
+						fontFamily: 'Lato',
 					},
 				]}>
 				<Link
@@ -58,6 +63,7 @@ export default function Footer() {
 					margin: theme.spacing(2, 0, 2, 0),
 					color: '#999',
 					fontSize: '14px',
+					fontFamily: 'Lato',
 				}}>
 				{'© Leegyuyeon ' + new Date().getFullYear() + '. All rights reserved'}
 			</Typography>
