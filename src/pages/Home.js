@@ -13,7 +13,7 @@ import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SIdeMenu';
 import { useTheme } from '@emotion/react';
-import { authService } from '../fbase';
+import { authService, dbService, storageService } from '../fbase';
 import AddBtn from '../components/AddBtn';
 import AddIcon from '@mui/icons-material/Add';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
@@ -48,10 +48,44 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 function Home({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
-	const arr = Array.from({ length: 20 }, (v, i) => i);
-
 	const [open, setOpen] = useState(false);
 	console.log('현재 유저', authService.currentUser);
+
+	const [portraits, setPortraits] = useState([]);
+	const [noPic, setNoPic] = useState(false);
+
+	useEffect(() => {
+		dbService
+			.collection('Portrait')
+			.orderBy('createdAt', 'desc')
+			.onSnapshot((snapshot) => {
+				const Pics = snapshot.docs.map((pic) => ({
+					...pic.data(),
+					id: pic.createdAt,
+				}));
+				console.log(Pics);
+				setPortraits(Pics);
+				Pics.length !== 0 ? setNoPic(false) : setNoPic(true);
+			});
+
+		console.log('nopic', noPic, portraits.length);
+	}, []);
+
+	const handleDelete = (title, uuid) => {
+		window.confirm(`[${title}] 사진을 삭제하시겠습니까?`) &&
+			dbService
+				.collection('Portrait')
+				.doc(`${title} : ${uuid}`)
+				.delete()
+				.then(() => {
+					storageService.ref().child(`Portrait/${title} : ${uuid}`).delete();
+					alert(`사진이 삭제되었습니다.`);
+				})
+				.catch((error) => {
+					console.log(error);
+					alert(`[${title}] 사진을 삭제하는 도중 오류가 발생했습니다.`);
+				});
+	};
 
 	return (
 		<div className='App'>
@@ -64,56 +98,90 @@ function Home({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 					<DrawerHeader />
 					<Container maxWidth={false} style={{ padding: (0, 3, 0, 3) }}>
 						<Grid container>
-							{arr.map((a, idx) => (
+							{portraits.map((pic, idx) => (
 								<Grid xs={12} md={6} lg={3} key={idx}>
 									<Fade>
 										<Paper
 											variant='outlined'
 											style={{
-												height: '500px',
-												backgroundColor: 'grey',
+												//height: '500px',
+												//width: '400px',
+												backgroundColor: '#fbfbfb',
 												margin: '3px',
 												borderRadius: 0,
+												border: 'none',
 												display: 'grid',
 												gridAutoFlow: 'column',
 												gridTemplateColumns: '1fr',
+												overflow: 'hidden',
 											}}>
-											{isDeleteMod && (
-												<Fab
-													aria-label='close'
-													size='small'
-													sx={[
-														{
-															'&:hover':
-																{
-																	backgroundColor:
-																		'#2c362a',
-																	filter: 'brightness(1.5)',
-																},
-														},
-														{
-															backgroundColor:
-																'#2c362a',
-															color: '#fbfbfb',
-														},
-														{
-															width: 21,
-															height: 21,
-															minHeight: 0,
-															marginLeft: 1,
-															marginTop: 1,
-														},
-													]}>
-													<CloseRoundedIcon
-														sx={{
-															width: 15,
-															height: 15,
-															margin: 0,
-															padding: 0,
-														}}
-													/>
-												</Fab>
-											)}
+											<div
+												style={{
+													position: 'relative',
+													display: 'block',
+													maxWidth: '100%',
+													margin: 'auto',
+												}}>
+												{isDeleteMod && (
+													<Fab
+														aria-label='delete'
+														size='small'
+														onClick={() =>
+															handleDelete(
+																pic.title,
+																pic.uuid
+															)
+														}
+														sx={[
+															{
+																'&:hover':
+																	{
+																		backgroundColor:
+																			'#2c362a',
+																		filter: 'brightness(1.5)',
+																	},
+															},
+															{
+																backgroundColor:
+																	'#2c362a',
+																color: '#fbfbfb',
+															},
+															{
+																position: 'absolute',
+
+																width: 21,
+																height: 21,
+																minHeight: 0,
+																right: 10,
+																//marginLeft: 1,
+																marginTop: 1,
+															},
+														]}>
+														<CloseRoundedIcon
+															sx={{
+																width: 15,
+																height: 15,
+																margin: 0,
+																padding: 0,
+															}}
+														/>
+													</Fab>
+												)}
+												<img
+													alt={pic.title}
+													src={pic.fileUrl}
+													//width='auto'
+													height='auto'
+													style={{
+														position: 'relative',
+														display: 'block',
+														maxWidth: '100%',
+														margin: 'auto',
+
+														//maxHeight: '500px',
+													}}
+												/>
+											</div>
 										</Paper>
 									</Fade>
 								</Grid>
@@ -129,6 +197,7 @@ function Home({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 					setIsLoggedIn={setIsLoggedIn}
 					isDeleteMod={isDeleteMod}
 					setIsDeleteMod={setIsDeleteMod}
+					noPic={noPic}
 				/>
 			</Box>
 		</div>

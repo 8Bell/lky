@@ -28,6 +28,7 @@ export default function Footer() {
 				sx={{
 					margin: theme.spacing(2, 0, 0, 0),
 					color: '#999',
+					fontSize: '14px',
 				}}>
 				Leegyuyeon
 			</Typography>
@@ -42,6 +43,7 @@ export default function Footer() {
 					{
 						margin: theme.spacing(2, 0, 0, 0),
 						color: '#999',
+						fontSize: '14px',
 					},
 				]}>
 				<Link
@@ -55,6 +57,7 @@ export default function Footer() {
 				sx={{
 					margin: theme.spacing(2, 0, 2, 0),
 					color: '#999',
+					fontSize: '14px',
 				}}>
 				{'© Leegyuyeon ' + new Date().getFullYear() + '. All rights reserved'}
 			</Typography>

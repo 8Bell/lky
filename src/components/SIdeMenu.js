@@ -39,6 +39,7 @@ export default function SideMenu({
 	setIsLoggedIn,
 	isDeleteMod,
 	setIsDeleteMod,
+	noPic,
 }) {
 	const drawerWidth = 230;
 	const [contactMenu, setContactMenu] = useState(false);
@@ -210,7 +211,11 @@ export default function SideMenu({
 				</IconButton>
 			</Drawer>
 			{isLoggedIn && (
-				<AddBtn isDeleteMod={isDeleteMod} setIsDeleteMod={setIsDeleteMod} />
+				<AddBtn
+					isDeleteMod={isDeleteMod}
+					setIsDeleteMod={setIsDeleteMod}
+					noPic={noPic}
+				/>
 			)}
 		</div>
 	);

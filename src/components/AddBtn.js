@@ -1,5 +1,15 @@
-import { Fab, FormControl, Grid, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
-import React, { useState } from 'react';
+import {
+	Backdrop,
+	CircularProgress,
+	Fab,
+	FormControl,
+	Grid,
+	IconButton,
+	InputLabel,
+	MenuItem,
+	Select,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -39,26 +49,33 @@ const Input = styled('input')({
 const actions = [
 	{ icon: <AddAPhotoIcon />, name: '사진 업로드' },
 	{ icon: <NoPhotographyRoundedIcon />, name: '사진 삭제' },
-	{ icon: <PhotoSizeSelectLargeIcon />, name: '사진 수정' },
+	//{ icon: <PhotoSizeSelectLargeIcon />, name: '사진 수정' },
 ];
 
-export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
+export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 	const [open, setOpen] = useState(false);
 	const [openUploadDialog, setOpenUploadDialog] = useState(false);
 	const [file, setFile] = useState('');
 	const [tag, setTag] = React.useState('');
 	const [title, setTitle] = useState('');
+	const [uuid, setUuid] = useState('');
+	const [backdrop, setBackdrop] = useState(false);
+
+	useEffect(() => {
+		!noPic && setIsDeleteMod(false);
+	}, [noPic, setIsDeleteMod]);
 
 	const handleClickOpen = (name) => {
 		switch (name) {
 			case '사진 업로드':
 				setOpenUploadDialog(true);
+				setUuid(uuidv4());
 				break;
 			case '사진 삭제':
-				setIsDeleteMod((prev) => !prev);
+				!noPic && setIsDeleteMod((prev) => !prev);
 				break;
-			case '사진 수정':
-				break;
+			// case '사진 수정':
+			// 	break;
 			default:
 				break;
 		}
@@ -105,14 +122,33 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 	const photoUpload = async (e) => {
 		e.preventDefault();
 		if (tag !== '' && title !== '' && file !== '') {
-			const fileRef = storageService.ref().child(`${tag}/${title}/${uuidv4()}`);
+			setBackdrop(true);
+			const fileRef = storageService.ref().child(`${tag}/${title} : ${uuid}`);
 			const response = await fileRef.putString(file, 'data_url');
+			const fileUrl = await response.ref.getDownloadURL();
+			const photo = {
+				title,
+				tag,
+				createdAt: Date.now(),
+				fileUrl,
+				uuid,
+			};
+
+			await dbService
+				.collection(tag)
+				.doc(`${title} : ${uuid}`)
+				.set(photo)
+				.then(() => {
+					setBackdrop(false);
+				});
+
 			handleClickClose();
-		} else if (tag == '') {
+			setUuid('');
+		} else if (tag === '') {
 			alert('카테고리를 선택해주세요.');
-		} else if (title == '') {
+		} else if (title === '') {
 			alert('사진의 제목을 입력해주세요.');
-		} else if (file == '') {
+		} else if (file === '') {
 			alert('사진을 첨부해주세요.');
 		}
 	};
@@ -279,6 +315,13 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod }) {
 					</Button>
 				</DialogActions>
 			</Dialog>
+			<Backdrop
+				sx={{ color: '#fff', zIndex: 9999 }}
+				open={backdrop}
+				// onClick={handleClose}
+			>
+				<CircularProgress color='inherit' />
+			</Backdrop>
 		</div>
 	);
 }
