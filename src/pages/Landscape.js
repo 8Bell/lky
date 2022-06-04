@@ -61,7 +61,7 @@ function Landscape({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 			.onSnapshot((snapshot) => {
 				const Pics = snapshot.docs.map((pic) => ({
 					...pic.data(),
-					id: pic.createdAt,
+					id: pic.uuid,
 				}));
 				console.log(Pics);
 				setLandscapes(Pics);

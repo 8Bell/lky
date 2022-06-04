@@ -18,10 +18,10 @@ export default function Footer() {
 					{
 						margin: theme.spacing(10, 0, 7, 0),
 						borderRadius: '30px',
-						padding: theme.spacing(1, 1.3, 1, 1.3),
+						padding: theme.spacing(1, 1.5, 1, 1.5),
 						fontSize: '15px',
 						backgroundColor: '#2c362a',
-						fontFamily: 'Lato',
+						fontFamily: 'LatoR',
 						fontWeight: 400,
 					},
 				]}>
@@ -30,8 +30,8 @@ export default function Footer() {
 			<Typography
 				sx={{
 					margin: theme.spacing(2, 0, 0, 0),
-					color: '#999',
-					fontSize: '14px',
+					color: '#555',
+					fontSize: '15px',
 					fontFamily: 'Lato',
 				}}>
 				Leegyuyeon
@@ -46,14 +46,14 @@ export default function Footer() {
 					},
 					{
 						margin: theme.spacing(2, 0, 0, 0),
-						color: '#999',
-						fontSize: '14px',
+						color: '#555',
+						fontSize: '15px',
 						fontFamily: 'Lato',
 					},
 				]}>
 				<Link
 					href='https://www.instagram.com/analogyuyeon'
-					sx={{ color: '#999' }}
+					sx={{ color: '#555' }}
 					underline='none'>
 					@analogyuyeon
 				</Link>
@@ -61,8 +61,8 @@ export default function Footer() {
 			<Typography
 				sx={{
 					margin: theme.spacing(2, 0, 2, 0),
-					color: '#999',
-					fontSize: '14px',
+					color: '#555',
+					fontSize: '15px',
 					fontFamily: 'Lato',
 				}}>
 				{'© Leegyuyeon ' + new Date().getFullYear() + '. All rights reserved'}

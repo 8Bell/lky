@@ -61,7 +61,7 @@ function Sorok({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 			.onSnapshot((snapshot) => {
 				const Pics = snapshot.docs.map((pic) => ({
 					...pic.data(),
-					id: pic.createdAt,
+					id: pic.uuid,
 				}));
 				console.log(Pics);
 				setSoroks(Pics);
@@ -99,7 +99,7 @@ function Sorok({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 					<Container maxWidth={false} style={{ padding: (0, 3, 0, 3) }}>
 						<Grid container>
 							<Grid xs={12} color='#888' sx={{ mt: 3, mb: 3 }}>
-								<Typography sx={{ mb: 1, fontFamily: 'Lato' }}>
+								<Typography sx={{ mb: 1, fontFamily: 'LatoR' }}>
 									Sorok
 								</Typography>
 								<Typography sx={{ fontFamily: 'Lato' }}>

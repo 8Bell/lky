@@ -143,7 +143,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 
 	const photoUpload = async (e) => {
 		e.preventDefault();
-		if (tag !== '' && title !== '' && file !== '') {
+		if (tag !== '' && title !== '' && file !== '' && processing !== '') {
 			setBackdrop(true);
 			const fileRef = storageService.ref().child(`${tag}/${title} : ${uuid}`);
 			const response = await fileRef.putString(file, 'data_url');
@@ -173,7 +173,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 			alert('사진의 제목을 입력해주세요.');
 		} else if (tag === '') {
 			alert('카테고리를 선택해주세요.');
-		} else if (processing === '') {
+		} else if (processing == '') {
 			alert('디지털/아날로그 구분을 선택해주세요.');
 		}
 	};
