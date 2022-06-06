@@ -4,6 +4,7 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Link, Navigate } from 'react-router-dom';
 
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== 'open',
@@ -77,7 +78,12 @@ export default function NavBar({ open, setOpen, isLoggedIn }) {
 					}}
 					component='div'
 					align='left'>
-					Leegyuyeon
+					<Link
+						to='/'
+						onClick={() => Navigate('/')}
+						style={{ color: '#2c362a', textDecorationLine: 'none' }}>
+						Leegyuyeon
+					</Link>
 				</Typography>
 
 				<IconButton
