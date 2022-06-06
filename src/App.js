@@ -1,9 +1,5 @@
-import { createTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
-import Footer from './components/Footer';
-import NavBar from './components/NavBar';
-import SideMenu from './components/SIdeMenu';
 import { authService } from './fbase';
 import Auth from './pages/Auth';
 import Home from './pages/Home';

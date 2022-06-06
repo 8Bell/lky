@@ -9,8 +9,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import fbase, { authService, cuttentUser } from '../fbase';
-import { Router, useNavigate } from 'react-router-dom';
+import { authService } from '../fbase';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
@@ -66,7 +66,7 @@ export default function Auth({ setIsLoggedIn }) {
 		} else {
 			setIsLoggedIn(false);
 		}
-	}, []);
+	}, [navigate, setIsLoggedIn]);
 
 	return (
 		<ThemeProvider theme={theme} sx={{ bgcolor: '#2c362a' }}>

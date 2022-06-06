@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IconButton, Toolbar, Typography } from '@mui/material';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import MuiAppBar from '@mui/material/AppBar';
-import { styled, useTheme } from '@mui/material/styles';
-import { Fade } from 'react-awesome-reveal';
+import { styled } from '@mui/material/styles';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 const AppBar = styled(MuiAppBar, {
