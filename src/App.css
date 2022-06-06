@@ -57,9 +57,12 @@
 	animation-duration: 0.5s;
 	animation-fill-mode: both;
 }
-@media (max-width: 900px) {
+@media (max-width: 600px) {
 	.page-preloader {
 		background-size: 130%;
+	}
+	.page-preloader2 {
+		background-size: 80%;
 	}
 }
 
@@ -76,10 +79,16 @@
 	animation-delay: 3.5s;
 	animation-duration: 0.5s;
 	animation-fill-mode: both;
+	background-size: 12%;
 }
-@media (max-width: 600px) {
+@media (max-width: 1700px) {
 	.page-preloader2 {
-		background-size: 60%;
+		background-size: 30%;
+	}
+}
+@media (max-width: 1200px) {
+	.page-preloader2 {
+		background-size: 50%;
 	}
 }
 
