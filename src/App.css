@@ -78,8 +78,8 @@
 	animation-fill-mode: both;
 }
 @media (max-width: 600px) {
-	.page-preloader {
-		background-size: 130%;
+	.page-preloader2 {
+		background-size: 120%;
 	}
 }
 
