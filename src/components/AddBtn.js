@@ -33,10 +33,10 @@ import CameraRollRoundedIcon from '@mui/icons-material/CameraRollRounded';
 import NoPhotographyRoundedIcon from '@mui/icons-material/NoPhotographyRounded';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import './AddBtn.css';
 import { dbService, storageService } from '../fbase';
 import { v4 as uuidv4 } from 'uuid';
 import { Fade } from 'react-awesome-reveal';
+import './AddBtn.css';
 
 const Input = styled('input')({
 	display: 'none',
@@ -201,7 +201,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 						bottom: 0,
 						right: 0,
 					}}
-					icon={<SpeedDialIcon />}
+					icon={<SpeedDialIcon sx={{ padding: 0, margin: 0 }} />}
 					onClose={handleClose}
 					onOpen={handleOpen}
 					open={open}>
@@ -247,7 +247,11 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 				</SpeedDial>
 			</Box>
 			<Grow in={selected}>
-				<Dialog open={openUploadDialog} onClose={handleClickClose}>
+				<Dialog
+					open={openUploadDialog}
+					onClose={handleClickClose}
+					className='Dialog'
+					fullScreen={window.innerWidth <= '768'}>
 					<DialogTitle
 						sx={{
 							fontWeight: 700,

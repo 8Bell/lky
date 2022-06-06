@@ -15,7 +15,6 @@ import SideMenu from '../components/SIdeMenu';
 import { authService, dbService, storageService } from '../fbase';
 import AddBtn from '../components/AddBtn';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import '../components/closebutton.css';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 	({ theme, open }) => ({
