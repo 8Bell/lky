@@ -84,7 +84,7 @@ function Home({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 
 	return (
 		<div className='App'>
-			<div id='page-loading-blocs-notifaction' class='page-preloader2' />
+			<div id='page-loading-blocs-notifaction' class='page-preloader' />
 
 			<Box sx={{ display: 'flex' }}>
 				<CssBaseline />

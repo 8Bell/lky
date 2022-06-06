@@ -53,11 +53,11 @@
 	z-index: 100000;
 	background: #fff url('./img/pageload-spinner.gif') no-repeat center;
 	animation-name: preloader-fade;
-	animation-delay: 2s;
+	animation-delay: 2.5s;
 	animation-duration: 0.5s;
 	animation-fill-mode: both;
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
 	.page-preloader {
 		background-size: 130%;
 	}
@@ -73,13 +73,13 @@
 	z-index: 100000;
 	background: #fff url('./img/pageload-spinner2.gif') no-repeat center;
 	animation-name: preloader-fade;
-	animation-delay: 2s;
+	animation-delay: 3.5s;
 	animation-duration: 0.5s;
 	animation-fill-mode: both;
 }
 @media (max-width: 600px) {
 	.page-preloader2 {
-		background-size: 120%;
+		background-size: 60%;
 	}
 }
 
@@ -103,12 +103,12 @@
 	text-align: center;
 	width: 100vw;
 	background-color: #fbfbfb;
-	-webkit-touch-callout: none;
+	-webkit-touch-callout: none !important;
 	-webkit-user-select: none !important;
 	-moz-user-select: -moz-none !important;
 	-ms-user-select: none !important;
 	user-select: none !important;
 }
 .img {
-	pointer-events: none;
+	pointer-events: none !important;
 }
