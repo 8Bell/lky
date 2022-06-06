@@ -19,6 +19,20 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="ios status bar color" />
 		<meta name="apple-mobile-web-app-title" content="Leegyuyeon" />
 		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+		<script type="text/javascript">
+			// 안드로이드 우측 버튼 비활성
+			$(document).bind('contextmenu', function (e) {
+				return false;
+			});
+			//F12 개발자도구 비활성
+			$(document).bind('keydown', function (e) {
+				if (e.keyCode == 123) {
+					e.preventDefault();
+					e.returnValue = false;
+				}
+			});
+		</script>
+
 		<title>Leegyuyeon</title>
 	</head>
 	<body>
