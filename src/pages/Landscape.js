@@ -1,4 +1,4 @@
-import { Badge, Fab, Grid, Typography } from '@mui/material';
+import { Fab, Grid } from '@mui/material';
 import { Container } from '@mui/system';
 import '../App.css';
 import Paper from '@mui/material/Paper';
@@ -12,10 +12,8 @@ import { Fade } from 'react-awesome-reveal';
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import SideMenu from '../components/SIdeMenu';
-import { useTheme } from '@emotion/react';
 import { authService, dbService, storageService } from '../fbase';
 import AddBtn from '../components/AddBtn';
-import AddIcon from '@mui/icons-material/Add';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import '../components/closebutton.css';
 
@@ -67,8 +65,6 @@ function Landscape({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 				setLandscapes(Pics);
 				Pics.length !== 0 ? setNoPic(false) : setNoPic(true);
 			});
-
-		console.log('nopic', noPic, landscapes.length);
 	}, []);
 
 	const handleDelete = (title, uuid) => {
@@ -79,7 +75,7 @@ function Landscape({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 				.delete()
 				.then(() => {
 					storageService.ref().child(`Landscape/${title} : ${uuid}`).delete();
-					alert(`사진이 삭제되었습니다.`);
+					// alert(`사진이 삭제되었습니다.`);
 				})
 				.catch((error) => {
 					console.log(error);

@@ -1,12 +1,12 @@
 import {
 	Backdrop,
+	Checkbox,
 	Chip,
 	CircularProgress,
 	createTheme,
 	Divider,
-	Fab,
 	FormControl,
-	Grid,
+	FormControlLabel,
 	Grow,
 	IconButton,
 	InputLabel,
@@ -14,7 +14,6 @@ import {
 	Select,
 	Stack,
 	ThemeProvider,
-	Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
@@ -22,49 +21,34 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import styled from '@emotion/styled';
-import { useTheme } from '@emotion/react';
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import ShuffleOnIcon from '@mui/icons-material/ShuffleOn';
-import PhotoSizeSelectLargeIcon from '@mui/icons-material/PhotoSizeSelectLarge';
 import SdStorageRoundedIcon from '@mui/icons-material/SdStorageRounded';
 import CameraRollRoundedIcon from '@mui/icons-material/CameraRollRounded';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import NoPhotographyRoundedIcon from '@mui/icons-material/NoPhotographyRounded';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import './AddBtn.css';
-import { BreakfastDiningOutlined } from '@mui/icons-material';
-import { color, height } from '@mui/system';
 import { dbService, storageService } from '../fbase';
 import { v4 as uuidv4 } from 'uuid';
+import { Fade } from 'react-awesome-reveal';
 
 const Input = styled('input')({
 	display: 'none',
 });
 
-const actions = [
-	{ icon: <AddAPhotoIcon />, name: '사진 업로드' },
-	{ icon: <NoPhotographyRoundedIcon />, name: '사진 삭제' },
-	//{ icon: <PhotoSizeSelectLargeIcon />, name: '사진 수정' },
-];
-
 const theme = createTheme({
 	palette: {
 		primary: {
 			main: '#2c362a',
+		},
+		secondary: {
+			main: '#fbfbfb',
 		},
 	},
 });
@@ -79,6 +63,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 	const [uuid, setUuid] = useState('');
 	const [backdrop, setBackdrop] = useState(false);
 	const [selected, setSelected] = useState(false);
+	const [notice, setNotice] = useState(false);
 
 	useEffect(() => {
 		!noPic && setIsDeleteMod(false);
@@ -106,6 +91,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 		setTag('');
 		setProcessing('');
 		setTitle('');
+		setNotice(false);
 		setSelected(false);
 	};
 
@@ -115,6 +101,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 
 	const handleTagChange = (event) => {
 		setTag(event.target.value);
+		setNotice(false);
 	};
 
 	const handleOpen = () => setOpen(true);
@@ -162,6 +149,12 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 				.doc(`${title} : ${uuid}`)
 				.set(photo)
 				.then(() => {
+					if (notice === true) {
+						dbService
+							.collection(`${processing}:notice`)
+							.doc('notice')
+							.set(photo);
+					}
 					setBackdrop(false);
 				});
 
@@ -173,7 +166,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 			alert('사진의 제목을 입력해주세요.');
 		} else if (tag === '') {
 			alert('카테고리를 선택해주세요.');
-		} else if (processing == '') {
+		} else if (processing === '') {
 			alert('디지털/아날로그 구분을 선택해주세요.');
 		}
 	};
@@ -184,6 +177,11 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 	const choiceAnalog = (e) => {
 		setProcessing('Analog');
 	};
+
+	const handleNotice = () => {
+		setNotice(!notice);
+	};
+	console.log(notice);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -332,7 +330,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 								<MenuItem value='Portrait'>Portrait</MenuItem>
 								<MenuItem value='Landscape'>Landscape</MenuItem>
 								<MenuItem value='Sorok'>Sorok</MenuItem>
-								<MenuItem value='Notice'>Notice</MenuItem>
+								{/* <MenuItem value='Notice'>Notice</MenuItem> */}
 							</Select>
 						</FormControl>
 
@@ -367,6 +365,36 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 								}
 								onClick={choiceAnalog}
 							/>
+							<Fade>
+								<FormControlLabel
+									sx={{
+										transform: 'translate(20%,1px)',
+										color: '#555',
+										//backgroundColor: '#2c362a',
+										border: 'solid 1px #aaa',
+										paddingLeft: 2,
+										lineHeight: 0,
+										height: 31,
+										borderRadius: 30,
+										fontFamily: 'Lato',
+										fontSize: '8px',
+										display:
+											tag === 'Portrait'
+												? 'default'
+												: 'none',
+									}}
+									control={
+										<Checkbox
+											checked={notice}
+											onClick={handleNotice}
+											icon={<BookmarkBorderIcon />}
+											checkedIcon={<BookmarkIcon />}
+										/>
+									}
+									label='Notice'
+									labelPlacement='start'
+								/>
+							</Fade>
 						</Stack>
 					</DialogContent>
 					<Divider />

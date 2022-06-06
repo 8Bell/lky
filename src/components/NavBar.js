@@ -52,8 +52,8 @@ export default function NavBar({ open, setOpen, isLoggedIn }) {
 			open={open}
 			style={{
 				backgroundColor: 'rgba(251,251,251,0.3)',
-				backdropFilter: 'blur(5px)',
-				WebkitBackdropFilter: 'blur(5px)',
+				backdropFilter: 'blur(7px)',
+				WebkitBackdropFilter: 'blur(7px)',
 				boxShadow: navShadow ? ' 0 2px 2px 2px rgba(100,100,100,0.2)' : 'none',
 				transitionProperty: 'all',
 				transitionDuration: '0.2s',

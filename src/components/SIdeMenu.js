@@ -1,8 +1,6 @@
 import {
 	Divider,
 	Drawer,
-	Fab,
-	Grid,
 	IconButton,
 	List,
 	ListItem,
@@ -20,7 +18,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import { authService } from '../fbase';
-import AddBtn from './AddBtn';
 import { useState } from 'react';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -129,14 +126,15 @@ export default function SideMenu({
 								damping={0.2}>
 								{text !== 'divider' ? (
 									<ListItem disablePadding>
-										<ListItemButton>
-											{index == 7 ? (
+										<ListItemButton
+											sx={{ pl: 2, pt: 0.5, pb: 0.5 }}>
+											{index === 7 ? (
 												<ListItemText
 													primary={text}
 													primaryTypographyProps={{
 														fontFamily:
 															'Lato',
-														fontSize: '20px',
+														fontSize: '17px',
 													}}
 													onClick={
 														handleContactMenuOpen
@@ -158,7 +156,7 @@ export default function SideMenu({
 														primaryTypographyProps={{
 															fontFamily:
 																'Lato',
-															fontSize: '20px',
+															fontSize: '17px',
 														}}
 													/>
 												</Link>
@@ -167,9 +165,11 @@ export default function SideMenu({
 									</ListItem>
 								) : (
 									<Divider
-										style={{
-											backgroundColor: '#fbfbfb',
-											marginLeft: '15px',
+										sx={{
+											backgroundColor: '#bbb',
+											ml: 2,
+											mt: 1,
+											mb: 1,
 										}}
 									/>
 								)}
@@ -185,10 +185,11 @@ export default function SideMenu({
 					style={{ display: `${contactMenu ? 'block' : 'none'}` }}>
 					<Typography
 						sx={{
-							marginLeft: '15px',
-							marginBottom: '15px',
+							ml: 2,
+							pt: 0.5,
+							pb: 0.5,
 							fontFamily: 'Lato',
-							fontSize: '20px',
+							fontSize: '17px',
 						}}>
 						<a href='https://pf.kakao.com/_KDiHb/chat' className='linkTo'>
 							Kakao
@@ -196,10 +197,11 @@ export default function SideMenu({
 					</Typography>
 					<Typography
 						sx={{
-							marginLeft: '15px',
-							marginBottom: '15px',
+							ml: 2,
+							pt: 0.5,
+							pb: 0.5,
 							fontFamily: 'Lato',
-							fontSize: '20px',
+							fontSize: '17px',
 						}}>
 						<a
 							href='https://www.instagram.com/analogyuyeon'
