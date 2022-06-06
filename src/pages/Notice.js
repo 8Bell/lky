@@ -1,5 +1,5 @@
-import { Badge, Fab, Grid, Typography } from '@mui/material';
-import { Container } from '@mui/system';
+import { Badge, Button, Fab, Grid, Typography } from '@mui/material';
+import { Container, width } from '@mui/system';
 import '../App.css';
 import Paper from '@mui/material/Paper';
 import React, { useEffect, useState } from 'react';
@@ -56,24 +56,24 @@ function Notice({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 
 	useEffect(() => {
 		dbService
-			.collection('Portrait')
-			.where('processing', '==', 'Digital')
+			.collection('Notice')
+			//.where('processing', '==', 'Digital')
+			.orderBy('createdAt')
 			.onSnapshot((snapshot) => {
-				const Pics = snapshot.docs.map((pic) => ({
-					...pic.data(),
-					id: pic.uuid,
-				}));
+				const Pics = snapshot.docs.filter(
+					(pic) => pic.data().processing === 'Digital'
+				);
 				console.log(Pics);
 				setDigital(Pics);
 			});
 		dbService
-			.collection('Portrait')
-			.where('processing', '==', 'Analog')
+			.collection('Notice')
+			//.where('processing', '==', 'Analog')
+			.orderBy('createdAt', 'asc')
 			.onSnapshot((snapshot) => {
-				const Pics = snapshot.docs.map((pic) => ({
-					...pic.data(),
-					id: pic.uuid,
-				}));
+				const Pics = snapshot.docs.filter(
+					(pic) => pic.data().processing === 'Analog'
+				);
 				console.log(Pics);
 				setAnalog(Pics);
 			});
@@ -81,7 +81,7 @@ function Notice({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 
 	return (
 		<div className='App'>
-			{/* <div id='page-loading-blocs-notifaction' class='page-preloader'></div> */}
+			{/* <div id='page-loading-blocs-notifaction' class='page-preloader' /> */}
 
 			<Box sx={{ display: 'flex' }}>
 				<CssBaseline />
@@ -92,60 +92,199 @@ function Notice({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 					<Container maxWidth={false} style={{ padding: (0, 3, 0, 3) }}>
 						<Grid container>
 							<Grid xs={12} md={12} lg={12}>
-								<Typography>Option</Typography>
+								<Typography
+									sx={{
+										fontSize: '22px',
+										fontFamily: 'LatoR',
+										fontWeight: 'bold',
+										color: '#777',
+										mt: 3,
+										mb: 5,
+									}}>
+									Option
+								</Typography>
 							</Grid>
-							<Grid xs={12} md={12} lg={6}>
+							<Grid xs={12} md={6} lg={6}>
 								<div
 									style={{
 										overflow: 'hidden',
-										width: '500px',
-										height: '500px',
+										width: '100%',
+										minHeight: '50vw',
+										maxHeight: '500px',
+										position: 'relative',
+										display: 'block',
+										margin: '20px auto',
 									}}>
-									{digital !== [] && (
+									{digital.length !== 0 && (
 										<img
-											// src={digital[0].fileUrl}
-											// alt={digital[0].title}
-											sx={{
-												maxHeight: '100%',
-												width: 'auto',
-												display: 'block',
+											src={digital[0].data().fileUrl}
+											alt={digital[0].data().title}
+											style={{
+												width: '100%',
+												transform:
+													'translateY(-20%)',
 											}}
 										/>
 									)}
 								</div>
 							</Grid>
-							<Grid xs={12} md={12} lg={6}>
-								<Typography>Digital</Typography>
-								<Typography>Fuji x-pro2</Typography>
-								<Typography>
+							<Grid
+								xs={12}
+								md={6}
+								lg={6}
+								sx={{ pl: '5%', pr: '5%', pt: '10%' }}>
+								<Typography
+									sx={{
+										fontSize: '22px',
+										fontFamily: 'LatoR',
+										fontWeight: 'bold',
+										color: '#777',
+										mt: 3,
+										mb: 3,
+										textAlign: 'left',
+									}}>
+									Digital
+								</Typography>
+								<Typography
+									sx={{
+										fontSize: '18px',
+										fontFamily: 'LatoR',
+										color: '#777',
+										mt: 3,
+										mb: 3,
+										textAlign: 'left',
+									}}>
+									Fuji x-pro2
+								</Typography>
+								<Typography
+									sx={{
+										fontSize: '15px',
+										fontFamily: 'LatoR',
+
+										color: '#777',
+										mt: 1,
+										mb: 1,
+										textAlign: 'left',
+									}}>
 									디지털 촬영은 장수와 상관 없이 2시간 이내로
 									진행됩니다.
 								</Typography>
-								<Typography>
+								<Typography
+									sx={{
+										fontSize: '15px',
+										fontFamily: 'LatoR',
+
+										color: '#777',
+										mt: 1,
+										mb: 1,
+										textAlign: 'left',
+									}}>
 									13장의 보정본과 200컷 이상의 원본을
 									제공해드립니다.
 								</Typography>
+								<Button
+									variant='contained'
+									fullWidth
+									sx={{ mb: 10, mt: 3 }}>
+									More info
+								</Button>
 							</Grid>
-							<Grid xs={12} md={12} lg={6}>
-								<img />
+							<Grid xs={12} md={6} lg={6}>
+								<div
+									style={{
+										overflow: 'hidden',
+										width: '100%',
+										minHeight: '50vw',
+										maxHeight: '500px',
+										position: 'relative',
+										display: 'block',
+										margin: '20px auto',
+									}}>
+									{analog.length !== 0 && (
+										<img
+											src={analog[0].data().fileUrl}
+											alt={analog[0].data().title}
+											style={{
+												width: '100%',
+												transform:
+													'translateY(-20%)',
+											}}
+										/>
+									)}
+								</div>
 							</Grid>
-							<Grid xs={12} md={12} lg={6}>
-								<Typography>Film</Typography>
-								<Typography>Bigmini / Minolta x700</Typography>
-								<Typography>
-									필름 촬영은 1롤(36컷)을 사용합니다.
+							<Grid
+								xs={12}
+								md={6}
+								lg={6}
+								sx={{ pl: '5%', pr: '5%', pt: '10%' }}>
+								<Typography
+									sx={{
+										fontSize: '22px',
+										fontFamily: 'LatoR',
+										fontWeight: 'bold',
+										color: '#777',
+										mt: 3,
+										mb: 3,
+										textAlign: 'left',
+									}}>
+									Film
 								</Typography>
-								<Typography>
+								<Typography
+									sx={{
+										fontSize: '18px',
+										fontFamily: 'LatoR',
+										color: '#777',
+										mt: 3,
+										mb: 3,
+										textAlign: 'left',
+									}}>
+									Konica Bigmini 301 / Minolta x700
+								</Typography>
+								<Typography
+									sx={{
+										fontSize: '15px',
+										fontFamily: 'LatoR',
+
+										color: '#777',
+										mt: 1,
+										mb: 1,
+										textAlign: 'left',
+									}}>
+									필름 촬영은 1롤(36컷) 사용합니다.
+								</Typography>
+								<Typography
+									sx={{
+										fontSize: '15px',
+										fontFamily: 'LatoR',
+
+										color: '#777',
+										mt: 1,
+										mb: 1,
+										textAlign: 'left',
+									}}>
 									필름 가격과 현상 비용이 포함된 가격입니다.
 								</Typography>
-								<Typography>
-									보정본 10장을 제공하며, 원본은 드리지
+								<Typography
+									sx={{
+										fontSize: '15px',
+										fontFamily: 'LatoR',
+
+										color: '#777',
+										mt: 1,
+										mb: 1,
+										textAlign: 'left',
+									}}>
+									보정본 10장을 제공해드리며, 원본은 드리지
 									않습니다.
 								</Typography>
+								<Button
+									variant='contained'
+									fullWidth
+									sx={{ mb: 10, mt: 3 }}>
+									More info
+								</Button>
 							</Grid>
-							<Grid></Grid>
-							<Grid></Grid>
-							<Grid></Grid>
 							<Footer />
 						</Grid>
 					</Container>

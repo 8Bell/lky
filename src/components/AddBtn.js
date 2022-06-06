@@ -332,6 +332,7 @@ export default function AddBtn({ isDeleteMod, setIsDeleteMod, noPic }) {
 								<MenuItem value='Portrait'>Portrait</MenuItem>
 								<MenuItem value='Landscape'>Landscape</MenuItem>
 								<MenuItem value='Sorok'>Sorok</MenuItem>
+								<MenuItem value='Notice'>Notice</MenuItem>
 							</Select>
 						</FormControl>
 
