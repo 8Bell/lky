@@ -122,7 +122,7 @@ function Notice({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 
 	return (
 		<div className='App'>
-			{/* <div id='page-loading-blocs-notifaction' class='page-preloader' /> */}
+			<div id='page-loading-blocs-notifaction' class='page-preloader' />
 
 			<Box sx={{ display: 'flex' }}>
 				<CssBaseline />

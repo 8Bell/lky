@@ -8,9 +8,8 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { Fade } from 'react-awesome-reveal';
 import { Link, Navigate } from 'react-router-dom';
 import './SideMenu.css';
@@ -40,8 +39,6 @@ export default function SideMenu({
 }) {
 	const drawerWidth = 230;
 	const [contactMenu, setContactMenu] = useState(false);
-
-	const theme = useTheme();
 
 	const handleDrawerClose = () => {
 		setOpen(false);
@@ -94,11 +91,7 @@ export default function SideMenu({
 						<IconButton
 							onClick={handleDrawerClose}
 							style={{ color: '#fbfbfb' }}>
-							{theme.direction === 'rtl' ? (
-								<ChevronLeftIcon fontSize='large' />
-							) : (
-								<ChevronRightIcon fontSize='large' />
-							)}
+							<ChevronRightIcon fontSize='large' />
 						</IconButton>
 					</Fade>
 				</DrawerHeader>
