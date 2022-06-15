@@ -76,7 +76,7 @@
 	z-index: 100000;
 	background: #fff url('./img/pageload-spinner2.gif') no-repeat center;
 	animation-name: preloader-fade;
-	animation-delay: 3.52s;
+	animation-delay: 3.5s;
 	animation-duration: 0.5s;
 	animation-fill-mode: both;
 	background-size: 12%;
