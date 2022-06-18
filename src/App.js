@@ -1,5 +1,5 @@
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import { authService } from './fbase';
@@ -9,6 +9,7 @@ import Landscape from './pages/Landscape';
 import Notice from './pages/Notice';
 import Sorok from './pages/Sorok';
 import './App.css';
+import { useTheme } from '@emotion/react';
 
 const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
 	//const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -29,54 +30,55 @@ const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
 		}),
 		[]
 	);
+	const theme = useTheme();
 
-	const theme = useMemo(
-		() =>
-			createTheme({
-				palette: {
-					mode,
-					...(mode === 'light'
-						? {
-								// palette values for light mode
-								primary: {
-									main: '#fbfbfb',
-								},
-								secondary: {
-									main: '#ddd',
-								},
-								background: {
-									default: '#fbfbfb',
-									paper: '#fbfbfb',
-								},
-								divider: '#aaa',
-								text: {
-									primary: grey[900],
-									secondary: grey[800],
-								},
-						  }
-						: {
-								// palette values for dark mode
+	// const theme = useMemo(
+	// 	() =>
+	// 		createTheme({
+	// 			palette: {
+	// 				mode,
+	// 				...(mode === 'light'
+	// 					? {
+	// 							// palette values for light mode
+	// 							primary: {
+	// 								main: '#fbfbfb',
+	// 							},
+	// 							secondary: {
+	// 								main: '#ddd',
+	// 							},
+	// 							background: {
+	// 								default: '#fbfbfb',
+	// 								paper: '#fbfbfb',
+	// 							},
+	// 							divider: '#aaa',
+	// 							text: {
+	// 								primary: grey[900],
+	// 								secondary: grey[800],
+	// 							},
+	// 					  }
+	// 					: {
+	// 							// palette values for dark mode
 
-								primary: {
-									main: '#fbfbfb',
-								},
-								secondary: {
-									main: '#ddd',
-								},
-								background: {
-									default: '#fbfbfb',
-									paper: '#fbfbfb',
-								},
-								divider: '#aaa',
-								text: {
-									primary: grey[900],
-									secondary: grey[800],
-								},
-						  }),
-				},
-			}),
-		[mode]
-	);
+	// 							primary: {
+	// 								main: '#fbfbfb',
+	// 							},
+	// 							secondary: {
+	// 								main: '#ddd',
+	// 							},
+	// 							background: {
+	// 								default: '#fbfbfb',
+	// 								paper: '#fbfbfb',
+	// 							},
+	// 							divider: '#aaa',
+	// 							text: {
+	// 								primary: grey[900],
+	// 								secondary: grey[800],
+	// 							},
+	// 					  }),
+	// 			},
+	// 		}),
+	// 	[mode]
+	// );
 
 	const appleThemeColor = document.getElementById('theme-color');
 	useEffect(() => {
