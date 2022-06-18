@@ -12,14 +12,14 @@ import './App.css';
 
 const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-	const [mode, setMode] = useState(
-		localStorage.getItem('mode')
-			? localStorage.getItem('mode')
-			: prefersDarkMode
-			? 'dark'
-			: 'light'
-	);
-	// const [mode, setMode] = useState('light');
+	// const [mode, setMode] = useState(
+	// 	localStorage.getItem('mode')
+	// 		? localStorage.getItem('mode')
+	// 		: prefersDarkMode
+	// 		? 'dark'
+	// 		: 'light'
+	// );
+	const [mode, setMode] = useState('light');
 
 	const colorMode = useMemo(
 		() => ({

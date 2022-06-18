@@ -84,7 +84,7 @@ function Landscape({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 	};
 
 	return (
-		<div>
+		<div class='App'>
 			<div class='page-preloader' />
 
 			<Box sx={{ display: 'flex' }}>
