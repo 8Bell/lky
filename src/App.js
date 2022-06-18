@@ -81,7 +81,7 @@ const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
 	const appleThemeColor = document.getElementById('theme-color');
 	useEffect(() => {
 		mode === 'dark'
-			? appleThemeColor.setAttribute('content', '#111')
+			? appleThemeColor.setAttribute('content', '#fbfbfb')
 			: appleThemeColor.setAttribute('content', '#fbfbfb');
 		localStorage.setItem('mode', mode);
 	}, [appleThemeColor, mode]);
