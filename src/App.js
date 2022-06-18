@@ -1,6 +1,6 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import { authService } from './fbase';
 import Auth from './pages/Auth';
@@ -9,7 +9,6 @@ import Landscape from './pages/Landscape';
 import Notice from './pages/Notice';
 import Sorok from './pages/Sorok';
 import './App.css';
-import { useTheme } from '@emotion/react';
 
 const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
 	//const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -20,17 +19,17 @@ const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
 	// 		? 'dark'
 	// 		: 'light'
 	// );
-	const [mode, setMode] = useState('light');
+	// const [mode, setMode] = useState('light');
 
-	const colorMode = useMemo(
-		() => ({
-			toggleColorMode: () => {
-				setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-			},
-		}),
-		[]
-	);
-	const theme = useTheme();
+	// const colorMode = useMemo(
+	// 	() => ({
+	// 		toggleColorMode: () => {
+	// 			setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+	// 		},
+	// 	}),
+	// 	[]
+	// );
+	// const theme = useTheme();
 
 	// const theme = useMemo(
 	// 	() =>
@@ -80,22 +79,22 @@ const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
 	// 	[mode]
 	// );
 
-	const appleThemeColor = document.getElementById('theme-color');
-	useEffect(() => {
-		mode === 'dark'
-			? appleThemeColor.setAttribute('content', '#fbfbfb')
-			: appleThemeColor.setAttribute('content', '#fbfbfb');
-		localStorage.setItem('mode', mode);
-	}, [appleThemeColor, mode]);
+	// const appleThemeColor = document.getElementById('theme-color');
+	// useEffect(() => {
+	// 	mode === 'dark'
+	// 		? appleThemeColor.setAttribute('content', '#fbfbfb')
+	// 		: appleThemeColor.setAttribute('content', '#fbfbfb');
+	// 	localStorage.setItem('mode', mode);
+	// }, [appleThemeColor, mode]);
 
 	return (
 		<div>
 			<CssBaseline />
-			<ColorModeContext.Provider value={colorMode}>
-				<ThemeProvider theme={theme}>
-					<Outlet />
-				</ThemeProvider>
-			</ColorModeContext.Provider>
+			{/* <ColorModeContext.Provider value={colorMode}>
+				<ThemeProvider theme={theme}> */}
+			<Outlet />
+			{/* </ThemeProvider>
+			</ColorModeContext.Provider> */}
 		</div>
 	);
 };
