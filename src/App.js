@@ -1,4 +1,4 @@
-import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
@@ -11,7 +11,7 @@ import Sorok from './pages/Sorok';
 import './App.css';
 
 const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
-	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+	//const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 	// const [mode, setMode] = useState(
 	// 	localStorage.getItem('mode')
 	// 		? localStorage.getItem('mode')
