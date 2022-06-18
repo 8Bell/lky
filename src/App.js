@@ -58,18 +58,19 @@ const Layout = ({ isLoggedIn, setIsLoggedIn, ColorModeContext }) => {
 								// palette values for dark mode
 
 								primary: {
-									main: '#111',
+									main: '#fbfbfb',
 								},
 								secondary: {
-									main: '#222',
+									main: '#ddd',
 								},
 								background: {
-									default: '#111',
-									paper: '#111',
+									default: '#fbfbfb',
+									paper: '#fbfbfb',
 								},
+								divider: '#aaa',
 								text: {
-									primary: '#fff',
-									secondary: grey[400],
+									primary: grey[900],
+									secondary: grey[800],
 								},
 						  }),
 				},
