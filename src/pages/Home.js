@@ -15,6 +15,7 @@ import SideMenu from '../components/SIdeMenu';
 import { authService, dbService, storageService } from '../fbase';
 import AddBtn from '../components/AddBtn';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import '../App.css';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 	({ theme, open }) => ({
@@ -83,8 +84,8 @@ function Home({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 	};
 
 	return (
-		<div className='App'>
-			<div id='page-loading-blocs-notifaction' class='page-preloader2' />
+		<div>
+			<div class='page-preloader' />
 
 			<Box sx={{ display: 'flex' }}>
 				<CssBaseline />
@@ -101,7 +102,7 @@ function Home({ isLoggedIn, setIsLoggedIn, isDeleteMod, setIsDeleteMod }) {
 											style={{
 												//height: '500px',
 												//width: '400px',
-												backgroundColor: '#fbfbfb',
+												//backgroundColor: '#fbfbfb',
 												margin: '3px',
 												borderRadius: 0,
 												border: 'none',

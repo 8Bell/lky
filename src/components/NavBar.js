@@ -50,13 +50,16 @@ export default function NavBar({ open, setOpen, isLoggedIn }) {
 		<AppBar
 			position='fixed'
 			open={open}
-			style={{
+			sx={{
+				backgroundImage: 'none',
 				backgroundColor: 'rgba(251,251,251,0.3)',
 				backdropFilter: 'blur(7px)',
 				WebkitBackdropFilter: 'blur(7px)',
 				boxShadow: navShadow ? ' 0 2px 2px 2px rgba(100,100,100,0.2)' : 'none',
 				transitionProperty: 'all',
 				transitionDuration: '0.2s',
+				transform: 'translateY(-50px)',
+				pt: '50px',
 			}}>
 			<Toolbar>
 				{isLoggedIn && (
